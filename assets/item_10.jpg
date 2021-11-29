@@ -1,0 +1,1351 @@
+<!DOCTYPE html><html class="no-js" lang="en-US" prefix="og: http://ogp.me/ns#"><head><meta charset="UTF-8"/>
+<script data-ezscrex='false' data-cfasync='false' data-pagespeed-no-defer>var __ez=__ez||{};__ez.stms=Date.now();__ez.evt={};__ez.script={};__ez.ck=__ez.ck||{};__ez.template={};__ez.template.isOrig=false;__ez.queue=(function(){var count=0,incr=0,items=[],timeDelayFired=false,hpItems=[],lpItems=[],allowLoad=true;var obj={func:function(name,funcName,parameters,isBlock,blockedBy,deleteWhenComplete,proceedIfError){var self=this;this.name=name;this.funcName=funcName;this.parameters=parameters===null?null:(parameters instanceof Array)?parameters:[parameters];this.isBlock=isBlock;this.blockedBy=blockedBy;this.deleteWhenComplete=deleteWhenComplete;this.isError=false;this.isComplete=false;this.isInitialized=false;this.proceedIfError=proceedIfError;this.isTimeDelay=false;this.process=function(){log("... func = "+name);self.isInitialized=true;self.isComplete=true;log("... func.apply: "+name);var funcs=self.funcName.split('.');var func=null;if(funcs.length>3){}else if(funcs.length===3){func=window[funcs[0]][funcs[1]][funcs[2]];}else if(funcs.length===2){func=window[funcs[0]][funcs[1]];}else{func=window[self.funcName];}
+if(typeof func!=='undefined'&&func!==null){func.apply(null,this.parameters);}
+if(self.deleteWhenComplete===true)delete items[name];if(self.isBlock===true){log("----- F'D: "+self.name);processAll();}}},file:function(name,path,isBlock,blockedBy,async,defer,proceedIfError){var self=this;this.name=name;this.path=path;this.async=async;this.defer=defer;this.isBlock=isBlock;this.blockedBy=blockedBy;this.isInitialized=false;this.isError=false;this.isComplete=false;this.proceedIfError=proceedIfError;this.isTimeDelay=false;this.process=function(){self.isInitialized=true;log("... file = "+name);var scr=document.createElement('script');scr.src=path;if(async===true)scr.async=true;else if(defer===true)scr.defer=true;scr.onerror=function(){log("----- ERR'D: "+self.name);self.isError=true;if(self.isBlock===true){processAll();}};scr.onreadystatechange=scr.onload=function(){var state=scr.readyState;log("----- F'D: "+self.name);if((!state||/loaded|complete/.test(state))){self.isComplete=true;if(self.isBlock===true){processAll();}}};document.getElementsByTagName('head')[0].appendChild(scr);}},fileLoaded:function(name,isComplete){this.name=name;this.path="";this.async=false;this.defer=false;this.isBlock=false;this.blockedBy=[];this.isInitialized=true;this.isError=false;this.isComplete=isComplete;this.proceedIfError=false;this.isTimeDelay=false;this.process=function(){};}};function init(){window.addEventListener("load",function(){setTimeout(function(){timeDelayFired=true;log('TDELAY -----');processAll();},5000);},false);}
+function addFile(name,path,isBlock,blockedBy,async,defer,proceedIfError,priority){var item=new obj.file(name,path,isBlock,blockedBy,async,defer,proceedIfError);if(priority===true){hpItems[name]=item}else{lpItems[name]=item}
+items[name]=item;checkIfBlocked(item);}
+function setallowLoad(settobool){allowLoad=settobool}
+function addFunc(name,func,parameters,isBlock,blockedBy,autoInc,deleteWhenComplete,proceedIfError,priority){if(autoInc===true)name=name+"_"+incr++;var item=new obj.func(name,func,parameters,isBlock,blockedBy,deleteWhenComplete,proceedIfError);if(priority===true){hpItems[name]=item}else{lpItems[name]=item}
+items[name]=item;checkIfBlocked(item);}
+function addTimeDelayFile(name,path){var item=new obj.file(name,path,false,[],false,false,true);item.isTimeDelay=true;log(name+' ... '+' FILE! TDELAY');lpItems[name]=item;items[name]=item;checkIfBlocked(item);}
+function addTimeDelayFunc(name,func,parameters){var item=new obj.func(name,func,parameters,false,[],true,true);item.isTimeDelay=true;log(name+' ... '+' FUNCTION! TDELAY');lpItems[name]=item;items[name]=item;checkIfBlocked(item);}
+function checkIfBlocked(item){if(isBlocked(item)===true||allowLoad==false)return;item.process();}
+function isBlocked(item){if(item.isTimeDelay===true&&timeDelayFired===false){log(item.name+" blocked = TIME DELAY!");return true;}
+if(item.blockedBy instanceof Array){for(var i=0;i<item.blockedBy.length;i++){var block=item.blockedBy[i];if(items.hasOwnProperty(block)===false){log(item.name+" blocked = "+block);return true;}else if(item.proceedIfError===true&&items[block].isError===true){return false;}else if(items[block].isComplete===false){log(item.name+" blocked = "+block);return true;}}}
+return false;}
+function markLoaded(filename){if(!filename||0===filename.length){return;}
+if(filename in items){var item=items[filename];if(item.isComplete===true){log(item.name+' '+filename+': error loaded duplicate')}else{item.isComplete=true;item.isInitialized=true;}}else{items[filename]=new obj.fileLoaded(filename,true);}
+log("markLoaded dummyfile: "+items[filename].name);}
+function logWhatsBlocked(){for(var i in items){if(items.hasOwnProperty(i)===false)continue;var item=items[i];isBlocked(item)}}
+function log(msg){var href=window.location.href;var reg=new RegExp('[?&]ezq=([^&#]*)','i');var string=reg.exec(href);var res=string?string[1]:null;if(res==="1")console.debug(msg);}
+function processAll(){count++;if(count>200)return;log("let's go");processItems(hpItems);processItems(lpItems);}
+function processItems(list){for(var i in list){if(list.hasOwnProperty(i)===false)continue;var item=list[i];if(item.isComplete===true||isBlocked(item)||item.isInitialized===true||item.isError===true){if(item.isError===true){log(item.name+': error')}else if(item.isComplete===true){log(item.name+': complete already')}else if(item.isInitialized===true){log(item.name+': initialized already')}}else{item.process();}}}
+init();return{addFile:addFile,addDelayFile:addTimeDelayFile,addFunc:addFunc,addDelayFunc:addTimeDelayFunc,items:items,processAll:processAll,setallowLoad:setallowLoad,markLoaded:markLoaded,logWhatsBlocked:logWhatsBlocked,};})();__ez.evt.add=function(e,t,n){e.addEventListener?e.addEventListener(t,n,!1):e.attachEvent?e.attachEvent("on"+t,n):e["on"+t]=n()},__ez.evt.remove=function(e,t,n){e.removeEventListener?e.removeEventListener(t,n,!1):e.detachEvent?e.detachEvent("on"+t,n):delete e["on"+t]};__ez.script.add=function(e){var t=document.createElement("script");t.src=e,t.async=!0,t.type="text/javascript",document.getElementsByTagName("head")[0].appendChild(t)};__ez.dot={};</script>
+<script>var __sellerid="d7c7bfebffe2bfef60aae9bbf8b5a520";var __ez_nid ="1254144";__advertiserRule=[''];</script>
+<script>var ezasVars = {'cid':'9884382357','pid':'pub-1764493997491763','ssid':44};</script>
+<script>window.ezhbopt=true;</script>
+<link rel='preload' as='script' href='//securepubads.g.doubleclick.net/tag/js/gpt.js'>
+<link href="//ad.doubleclick.net" rel="dns-prefetch">
+<link href="//pagead2.googlesyndication.com" rel="dns-prefetch">
+<link href="//googleads.g.doubleclick.net" rel="dns-prefetch">
+<link href="//tpc.googlesyndication.com" rel="dns-prefetch">
+<link href="//adservice.google.com" rel="dns-prefetch">
+<link href="//secureads.g.doubleclick.net" rel="dns-prefetch">
+<link href="//www.googletagservices.com" rel="dns-prefetch">
+<link rel='preload' as='script' href='//go.ezodn.com/hb/dall.js?b=adyoulike,amx,appnexus,gumgum,ix,medianet,oftmedia,onetag,pulsepoint,sharethrough,unruly&cb=195-10-31'>
+<script async="" src="//c.amazon-adsystem.com/aax2/apstag.js"></script>
+<script data-cfasync="false" type="text/javascript" data-pagespeed-no-defer>var __ezaps=[{"slotID":"div-gpt-ad-trulygeeky_com-box-3-0","slotName":"/1254144/trulygeeky_com-box-3","sizes":[[300,250]]},{"slotID":"div-gpt-ad-trulygeeky_com-banner-1-0","slotName":"/1254144/trulygeeky_com-banner-1","sizes":[[580,400],[336,280],[300,250]]},{"slotID":"div-gpt-ad-trulygeeky_com-box-4-0","slotName":"/1254144/trulygeeky_com-box-4","sizes":[[300,250]]},{"slotID":"div-gpt-ad-trulygeeky_com-large-billboard-2-0","slotName":"/1254144/trulygeeky_com-large-billboard-2","sizes":[[336,280],[300,250]]},{"slotID":"div-gpt-ad-trulygeeky_com-box-1-0","slotName":"/1254144/trulygeeky_com-box-1","sizes":[[300,250]]},{"slotID":"div-gpt-ad-trulygeeky_com-box-2-0","slotName":"/1254144/trulygeeky_com-box-2","sizes":[[728,90]]},{"slotID":"div-gpt-ad-trulygeeky_com-medrectangle-1-0","slotName":"/1254144/trulygeeky_com-medrectangle-1","sizes":[[970,250],[970,90],[728,90]]}];var __ezapsVideo=[];var __ezapid="aa05931b-5308-4ea3-95a2-adf84f4ffde4";!function(a9,a){if(a[a9])return;function q(c,r){a[a9]._Q.push([c,r])}
+a[a9]={init:function(){q("i",arguments)},fetchBids:function(){q("f",arguments)},setDisplayBids:function(){},targetingKeys:function(){return[]},_Q:[]};}("apstag",window);var schain_domain='ezoic.ai';if(typeof __ez_nid!='undefined'&&__ez_nid==21732118914){schain_domain='ezoic.co.uk';}
+window.amznVideoResponse={};apstag.init({pubID:__ezapid,adServer:'googletag',videoAdServer:'DFP',schain:{complete:1,ver:'1.0',nodes:[{asi:schain_domain,sid:__sellerid,hp:1}]}});function getAmazonSlotById(id){if(typeof __ezaps==='undefined'){return;}
+for(var i=0;i<__ezaps.length;i++){var slot=__ezaps[i];if(typeof slot==='undefined'){continue;}
+var slotId=slot.slotID;if(typeof slotId!=='undefined'&&slotId==id){return slot;}}
+return false;}
+function ezapsFetchBids(amazonSlots,adType){if(typeof amazonSlots==='undefined'||amazonSlots.length===0){return}
+if(typeof adType!='undefined'&&adType=='video'){apstag.fetchBids({slots:amazonSlots,timeout:2e3},function(bids){setA9VideoBids(bids);});}else{apstag.fetchBids({slots:amazonSlots,timeout:2e3},function(bids){setA9DisplayBids(bids);});}}
+function setA9VideoBids(bids){for(b in bids){var bid=bids[b];window.amznVideoResponse[bid.slotID].params=bid.qsParams;window.amznVideoResponse[bid.slotID].raw=bid;}}
+function setA9DisplayBids(bids){if(typeof bids==='undefined'||bids.length==0){return;}
+var keys=apstag.targetingKeys();for(var i=0;i<bids.length;i++){var bid=bids[i];for(var k=0;k<keys.length;k++){if(keys[k]in bid){ezSetSlotTargeting(bid.slotID,keys[k],bid[keys[k]]);}}}}
+if(typeof __tcfapi!="undefined"){}else{ezapsFetchBids(__ezaps,'banner');if(typeof __ezapsVideo!='undefined'){ezapsFetchBids(__ezapsVideo,'video')}}</script>
+<script type="text/javascript">
+	var __banger_pmp_deals=function(){var d={18:{"DealId":18,"Floor":25},1428:{"DealId":1428,"Floor":25}};return[{"SlotName":"/1254144/trulygeeky_com-medrectangle-1","Deals":[]},{"SlotName":"/1254144/trulygeeky_com-box-4","Deals":[]},{"SlotName":"/1254144/trulygeeky_com-large-billboard-2","Deals":[d[18],d[1428]]},{"SlotName":"/1254144/trulygeeky_com-box-1","Deals":[]},{"SlotName":"/1254144/trulygeeky_com-box-2","Deals":[]},{"SlotName":"/1254144/trulygeeky_com-box-3","Deals":[]},{"SlotName":"/1254144/trulygeeky_com-banner-1","Deals":[d[18],d[1428]]}]}();
+</script>
+<script type='text/javascript'>_ebcids=[138231308856,138231308940,138231308949,138231387842,138231421744,138231421759,138231421774,138231421783,138231421789,138231421792,138242067587,138242067590,138242067602,138242067605,138242067608,138242067614,138242229406,138242229415,138242229421,138242229430];</script>
+<script data-ezscrex="false" data-cfasync="false" data-pagespeed-no-defer type='text/javascript'>ezobv=86;</script><script data-ezscrex="false" data-cfasync="false" data-pagespeed-no-defer type='text/javascript'>function ez_isclean(data){if(typeof data==='undefined'){data=document.URL;}
+var re=/(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))(@|%2540|%40)((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))/;var isClean=!re.test(data);return isClean;}
+var ezSlotKVStore={};function ezSetSlotTargeting(divid,key,value){var slot=ezGetSlotById(divid);if(slot){slot.setTargeting(key,value);}else{if(typeof ezSlotKVStore[divid]=='undefined'){ezSlotKVStore[divid]={};}
+ezSlotKVStore[divid][key]=value;}}
+function ezGetSlotById(id){if(typeof window.ezslots==='undefined'||window.ezslots==0){return;}
+for(var i=0;i<window.ezslots.length;i++){var slot=window[ezslots[i]];if(typeof slot==='undefined'){continue;}
+var slotId=slot.getSlotElementId();if(typeof slotId!=='undefined'&&slotId==id){return slot;}}}
+function ezSetTargetingFromMap(slot,obj){if(typeof slot==='undefined'){return;}
+for(var key in obj){if(!obj.hasOwnProperty(key)){continue;}
+slot.setTargeting(key,obj[key]);}}
+var ez_queue=new Array();function sort_queue(a,b)
+{if(a.priority<b.priority)return-1;else if(a.priority==b.priority)return 0;else return 1;}
+function execute_ez_queue()
+{ez_queue.sort(sort_queue);for(var i in ez_queue)
+{if(typeof ez_queue[i].method!="undefined")
+{try{ez_queue[i].method.call(null);}
+catch(err){}}}}
+window.ez_ad_units=new Array();window.ezslots=new Array();window.ezsrqt={};function ez_write_tag(d){if(ez_isclean()&&d instanceof Array){if(typeof ezstandalone!=='undefined'&&typeof ezstandalone.selectedPlaceholders!=='undefined'&&ezstandalone.selectedPlaceholders[d[3]]===true){return "1+1";}
+ez_ad_units[ez_ad_units.length]=d;var dve="";if(typeof d[5]!='undefined'&&d[5]>0){dve='_'+d[5];}
+var ezcmd="googletag.cmd.push(function() {var divid = 'div-gpt-ad-"+d[1]+"-"+d[4]+""+dve+"';if(typeof ezlrarn == 'function'){ezlrarn(divid);}googletag.display(divid);var to = 0;if("+d[2]+".getTargeting('ga')[0] == '0'){to = 500;}if((window.ezDisableInitialLoad==true || googletag.pubads().isInitialLoadDisabled()) && window.ezoll != true){setTimeout(function(){if(typeof window.adjustHbValues == 'function'){window.adjustHbValues("+d[2]+");}googletag.pubads().refresh(["+d[2]+"])},to);}});";return ezcmd;}
+return "1+1";}
+function in_array(needle,haystack){var length=haystack.length;for(var i=0;i<length;i++){if(haystack[i]==needle)return true;}
+return false;}
+var ezrpos=new Array();var ez_current_interval;var ez_current_load=0;function __ez_fad_load(n,r){if(!__ez_fad_csnt()||!__ez_fad_rdy()||ezslit_run[n]===true||typeof __ez_fad_divs[n]==='undefined'||__ez_fad_divs[n].length===0){return;}
+ezslit_run[n]=true;__ez_fad_gpt();if(n>0&&n!==5){__ez_fad_pb();}
+googletag.cmd.push(function(){var s=[];for(var i=0;i<__ez_fad_divs[n].length;i++){if(__ez_fad_divsd.indexOf(__ez_fad_divs[n][i])==-1){__ez_fad_divsd.push(__ez_fad_divs[n][i]);s.push(__ez_fad_initslot[__ez_fad_divs[n][i]](r));googletag.display(__ez_fad_divs[n][i]);}}
+var ws=[];for(i3=0;i3<s.length;i3++){var slot=window[s[i3]];if(typeof window.ezasBuild==='function'){if(window.ezasBuild(slot)){continue;}}
+if(typeof window.adjustHbValues==='function'){window.adjustHbValues(slot);}
+ws.push(slot);}
+googletag.pubads().refresh(ws);setTimeout(__ez_fad_floatshow,0);});if(n===0){if(document.readyState==="complete"){googletag.cmd.push(function(){__ez_fad_load(5,null);});setTimeout(function(){__ez_fad_load(1,null);__ez_fad_load(5,null);},5500);return;}
+document.addEventListener('DOMContentLoaded',function(evt){googletag.cmd.push(function(){__ez_fad_load(5,null);});setTimeout(function(){__ez_fad_load(1,null);__ez_fad_load(5,null);},5500);},false);}}
+var __ez_fad_floatshowd=false;function __ez_fad_floatshow(d){if(__ez_fad_floatshowd===true||typeof __ez_fad_floating==='undefined'){return;}
+__ez_fad_floatshowd=true;var e=document.getElementById('ezmobfooter');if(e!=null){e.classList.add('ezmobtrans');}else{head=document.head||document.getElementsByTagName('head')[0],style=document.createElement('style');head.appendChild(style);var css="body > #ezmobfooter{bottom:0px;visibility:visible;}";style.type='text/css';if(style.styleSheet){style.styleSheet.cssText=css;}else{style.appendChild(document.createTextNode(css));}}
+googletag.cmd.push(function(){for(var i=0;i<__ez_fad_floating.length;i++){var s=__ez_fad_initslot[__ez_fad_floating[i]](null);googletag.display(__ez_fad_floating[i]);if(typeof window.adjustHbValues==='function'){window.adjustHbValues(window[s]);}
+googletag.pubads().refresh([window[s]]);}});}
+var __ez_fad_initslot={};var __ez_fad_fastd=[];var __ez_fad_fastdiv=[];var __ez_fad_fastslots=[];var __ez_fad_viewslots=[];var __ez_fad_instaslots=[];var ezslit_run=[];var __ez_fad_divs=[[],[],[],[],[],[],[]];__ez_fad_divpos={};var __ez_fad_divsd=[];var __ez_fad_vw=window.screen.width;var __ez_fad_vh=window.screen.height;var __ez_fad_count=0;function __ez_fad_invisible(e){!!(e.offsetWidth||e.offsetHeight||e.getClientRects().length)}
+function __ez_fad_position(id){var did=document.getElementById(id);if(did!=null){var rect=did.getBoundingClientRect();var vs=window.scrollY||document.body.scrollTop||document.documentElement.scrollTop;var vh=vs+__ez_fad_vh;_ez_fad_vw=window.innerWidth||document.documentElement.clientWidth||document.body.clientWidth;__ez_fad_vh=window.innerHeight||Math.max(document.documentElement.clientHeight,document.body.clientHeight);var height_adjust=800;if(__ez_fad_vw<1200){height_adjust=__ez_fad_vh*1.25;vh+=0;}
+if(__ez_fad_floating.indexOf(id)==-1){__ez_fad_divpos[id]=rect.top;if(__ez_fad_invisible(did)&&isFloat!=true){__ez_fad_divs[4].push(id);}else if(rect.top<vh&&(ezslit_run[0]!=true||ezslit_run[5]!=true)){if(ezslit_run[0]!=true){__ez_fad_gpt();__ez_fad_divs[0].push(id);}else{__ez_fad_divs[5].push(id);}}else if(rect.top<(vh+height_adjust)&&ezslit_run[1]!=true){if(ezslit_run[0]!=true){__ez_fad_load(0,0);};__ez_fad_divs[1].push(id);}else if(rect.top<(vh+height_adjust+(__ez_fad_vh))&&ezslit_run[2]!=true){if(ezslit_run[0]!=true){__ez_fad_load(0,0);}
+__ez_fad_divs[2].push(id);}else{__ez_fad_divs[3].push(id);}
+__ez_fad_count++;}}}
+function __ez_fad_fast(s,f,m){if(__ez_fad_fastd.indexOf(s)==-1){__ez_fad_fastd.push(s);googletag.cmd.push(function(){var ebbr2='empty';var br2=0;if(typeof ezoibfh[f]!='undefined'){ebbr2=ezoibfh[f];br2=f;}
+if(typeof window['ezslot_'+s]!='undefined'){var br1=parseInt(window['ezslot_'+s].getTargeting('br1')[0]);if(isNaN(br1)||br2<br1){window['ezslot_'+s].setTargeting('br1',br2).setTargeting('eb_br',ebbr2);if(m!=null){window['ezslot_'+s].setTargeting('bvr',m);}}else{}}else{}});}}
+function __ez_fad_csnt(){return document.cookie.indexOf('ezCMPCookieConsent')!==-1||typeof __ez_conestreq=='undefined';}
+var __ez_fad_haspo=false;if(typeof PerformanceObserver!='undefined'&&typeof PerformanceObserver.supportedEntryTypes!='undefined'){if(PerformanceObserver.supportedEntryTypes.indexOf('largest-contentful-paint')>-1){__ez_fad_haspo=true;}}
+function __ez_fad_rdy(){if(document.body!==null&&(__ez_fad_haspo==false&&__ez_fad_doc_ht>__ez_fad_vp_ht||__ez_fad_hascp)||document.readyState==="complete"){return true;}else{__ez_fad_doc_ht=__ez_fad_docht();__ez_fad_vp_ht=__ez_fad_vpht();}
+return false;}
+function __ez_fad_docht(){if(typeof document.body!='undefined'&&document.body!=null){return Math.max(document.body.scrollHeight,document.body.offsetHeight);}else if(typeof document.documentElement!='undefined'){return Math.max(document.documentElement.clientHeight,document.documentElement.scrollHeight,document.documentElement.offsetHeight);}else{return 0;}}
+function __ez_fad_vpht(){if(typeof window.innerHeight!='undefined'){return window.innerHeight;}else if(typeof document.body!='undefined'&&document.body!=null){return document.body.clientHeight;}else if(typeof document.documentElement!='undefined'){return document.documentElement.clientHeight;}
+else{return 0;}}
+var __ez_fad_doc_ht=__ez_fad_docht();var __ez_fad_vp_ht=__ez_fad_vpht();var __ez_fad_hascp=false;try{const __ez__fad_po=new PerformanceObserver((entryList)=>{__ez_fad_hascp=true;});__ez__fad_po.observe({type:'largest-contentful-paint',buffered:true});}catch(e){}</script><script type='text/javascript' data-ezscrex="false">var ezorbf = []; </script><script data-ezscrex="false" data-cfasync="false" data-pagespeed-no-defer type='text/javascript'>window.isEZABL=false;window.ezmadspc=300;window.ezoViewCheck=false;</script><script data-ezscrex="false" data-cfasync="false" data-pagespeed-no-defer type='text/javascript'>window.ezDisableInitialLoad=false;</script><script data-ezscrex="false" data-cfasync="false" data-pagespeed-no-defer type='text/javascript'>window.googletag=window.googletag||{};googletag.cmd=googletag.cmd||[];</script><script data-ezscrex="false" data-cfasync="false" data-pagespeed-no-defer type='text/javascript'>(function(){var gads=document.createElement('script');gads.async=true;gads.type='text/javascript';var useSSL='https:'==document.location.protocol;gads.src=(useSSL?'https:':'http:')+
+'//securepubads.g.doubleclick.net/tag/js/gpt.js';var node=document.getElementsByTagName('script')[0];node.parentNode.insertBefore(gads,node);})();</script><script data-ezscrex="false" data-cfasync="false" data-pagespeed-no-defer type='text/javascript'>window.ezogetbrkey = function(s){ var k = 'br1';var k2 = 'eb_br';if(window.ezogtk == ""){k='br1u';k2='eb_bru';}else if(window.ezogtk != "NT"){k='br1t';k2='eb_brt';} s.setTargeting('br1', s.getTargeting(k));s.setTargeting('eb_br', s.getTargeting(k2));};googletag.cmd.push(function() {googletag.pubads().enableSingleRequest();googletag.pubads().addEventListener('slotRenderEnded', function(event) { __ez.queue.addFunc("ezbanger", "ezbanger", event, false, ['banger.js'], true, true, false, true); });googletag.pubads().addEventListener('impressionViewable', function(event) { __ez.queue.addFunc("ezvb", "ezvb", event, false, ['banger.js'], true, true, false, true); });googletag.pubads().addEventListener('slotResponseReceived', function(event) { __ez.queue.addFunc("ezsr", "ezsr", event, false, ['banger.js'], true, true, false, true); });googletag.pubads().addEventListener('slotRequested', function(e) { window.ezsrqt[e.slot.getSlotElementId()] = Date.now();});googletag.pubads().disableInitialLoad();googletag.pubads().enableLazyLoad({fetchMarginPercent: 400, renderMarginPercent: 150, mobileScaling: 2.0});googletag.enableServices();});window.ezoll = false;window.ezoadxnc = '1254144';window.ezoadhb = '28';var ezoibfh = {0:'zero',1000000:'off',280:'c16fac08e79a971524b1c6834f5caad3',16:'e29f69dd468d31a5514dc9b5587ce757',8:'2e8b8c60843e52e5aaa1e3a52287a2bb',8000:'e41b3739f340bda9dcfb30f79c9db1c9',4200:'e9b52ed700c176b9b3f036aa176f3f3e',2900:'ef3231a19d034bff92faf99318a47a5f',1000:'c5429b6ddd929d0bc40a832a87789a7c',50:'3ba982fc4238dd4197b1d51b345478dc',44:'a928cf2c3ad36f5e9ed2d90f655c1dc9',30:'54d0fa6d5f6aabe7623cb24faa42a441',4000:'e95a0029a1c0d52e1f82ee010826e7d9',1700:'ff69c327c284033fca821ae81630bfa9',750:'6ac330e431a70c7d8ce9fb95aee95c72',300:'90c3c48d0172916d27c102ea4aa9d49c',42:'947f1d5169cc7d0f997560e34838fb04',38:'23b5ca1d9de2587e6a4ecfd33d61b709',12:'14e8a85d4c42ff1db8790cbef9e33493',7500:'0de5c793b95df3adacbee8e14c308afc',850:'5297de5240aa45da173a0792747e0d26',100:'a495ce7dbb4cefcd3e0a722048894f41',90:'b355e9227b551c119a30a68852723b62',8500:'d5abc50791c030d76efa2ded02dcc115',2300:'a835e008e248a793da87524a4919f755',1400:'04b5efc3207e2390972f099a6a3c4757',180:'9ae587f95e95c876b7b76fd4c72a3838',450:'6e85b37de1b1ffc2593baa5d6e4b02fc',4:'9c3e4ee8eae7f1433cb2fe69b1326605',2700:'401612ca672af30f67eaf5e0989ce385',2100:'b2ac58e6c0c84fc65f344f47dd85768b',1100:'39abb99448d54704c4afa42efe76e15d',950:'c410f2a2b0c2123f4b6651cda6c5cf53',48:'8fc09e60bfd78aa82afac0405213359a',10:'291d27313eb66c50243129b23df8a579',3400:'2c0082dd1efc5e4dfdd4f50677fea822',1500:'d81e229576f8cb8a43ff5c6a8e596727',900:'eeb0e32289ff31f9ddef18331038e5e9',550:'26dfa00588543c52511429ade391f561',70:'527e52c10635ac8136a4c84094ee49a8',32:'d31e71883d00099e275b6c5878eed023',26:'bf9a045b836005b6c23b7b0749249612',18:'8de355ef1cf56b7da61277050d9957b1',10000:'f1e225445ec024e41bfd8ce2ba4aa91b',6000:'49d60519eec4f00cfb2d91dec1e48d41',240:'8de2c8ca79e8623e3cb37120a35ebaa2',80:'dfa60cee6e1053fc0c9e607c8047bd28',14:'ad0061a38dd7c6f7bcb692aee88dfda4',3600:'81f896ad12450b2f0257b1df6d3f1edc',2400:'6240c545bce1855c4e5a6ca430f526b1',700:'8b07bae800b215e481d05a271b3e723b',20:'7432360301409ae695ba255f16fbcf06',36:'8c5ffefb122f59a66a8b7672d4452af2',5000:'116f73d8738ced0c5546d5313109581e',2000:'12a3b3570adcf20fd41a00445219acaa',350:'9e0a1ce5b2455cb9b48d5df4c6bf4053',40:'ee685f77592ce296910ee91457d66ba3',600:'45a351e981f435b4c20fafca8a5d741c',260:'57914c3716312cb7e954090f0717ea25',220:'43aa1607a0c08c74b14a9039e7b909b4',34:'a7a863b24978e69c4cdbb5a49be70d5e',6500:'b6ac10cddc8471927cec0144110502e9',4400:'a2de9c8773c426848d7815dff1d2d44f',1900:'65b2c11be72ed8610e2ac0304f3023a9',1200:'736e09a0771285737509ab8954c475a7',22:'1e913e99b80640fd5b86a539e5b97c94',4800:'f0459c7057d45e6fbbed62c0762b551e',1300:'bfa042bdb1583c959161b7823290dc1f',650:'5bac35e1a3b6adc56da706000a645484',60:'c352ba581bd3ffd8cea608cf2d55f519',28:'674294a1b21a1e89fc99c14c9b17be44',2:'b6c98a8bb15764f1c4ee331dcb724178',3800:'58e03b675175bbbec8566d319041c5ee',2800:'a9ec56005762ef40746ec1b6d554f472',2500:'78e9436ba8e29037bc31f94589331e0b',200:'86802a923a1f32517e4c5d3b6d550271',5500:'b069a06daabd6e3043166f0e7a2edef4',500:'5f2b94bb26a5aa9b1a00e66d30cfd5ec',6:'33dd523f8e4dda158f0aa99686dda7f2',160:'3530fcb6bcc13dc3c1712eaef7d92700',46:'fe5b0c99ab7ba15f050582be1301303f',9500:'6fd3046d2172040882079eb07d0038c9',7000:'4552fb4beab2a055aec0d6113a8d9e42',2600:'cc65d2d1fcda72df55233f97cf215dad',800:'dc3573d5dc41abdf97751be02f53537f',400:'76163170a8636ae5b88417f095893e08',120:'58ef7bddb438af5e257c4377f32c243a',24:'e66c30deca31b19eda212eeca1258584',3200:'41ad5c6ea7dab736638507e437e60604',2200:'2620dac3b050a8e36c132f49cccab5a1',1800:'72c13a89ac876aaffdde39253459460b',1600:'6dbaa2f5e27e83e2fcd15988d9095988',9000:'e4c87a0c427c95c548a2ad50bc2fc99d',4600:'d297138284357206d38c781a2291b99a',3000:'92831edb305b955e915a7cc2288d5df6',140:'af063c244089b52ec5a0423a258f1f8e'};var ezaxmns={};var ezaucmns={};ezaxmns["div-gpt-ad-trulygeeky_com-large-billboard-2-0"]=0;ezaucmns["div-gpt-ad-trulygeeky_com-large-billboard-2-0"]=0;ezaxmns["div-gpt-ad-trulygeeky_com-medrectangle-1-0"]=0;ezaucmns["div-gpt-ad-trulygeeky_com-medrectangle-1-0"]=0;ezaxmns["div-gpt-ad-trulygeeky_com-box-2-0"]=0;ezaucmns["div-gpt-ad-trulygeeky_com-box-2-0"]=0;ezaxmns["div-gpt-ad-trulygeeky_com-banner-1-0"]=0;ezaucmns["div-gpt-ad-trulygeeky_com-banner-1-0"]=0;ezaxmns["div-gpt-ad-trulygeeky_com-box-4-0"]=0;ezaucmns["div-gpt-ad-trulygeeky_com-box-4-0"]=0;ezaxmns["div-gpt-ad-trulygeeky_com-box-1-0"]=0;ezaucmns["div-gpt-ad-trulygeeky_com-box-1-0"]=0;ezaxmns["div-gpt-ad-trulygeeky_com-box-3-0"]=0;ezaucmns["div-gpt-ad-trulygeeky_com-box-3-0"]=0;
+
+		var __ez_fad_floating = [];
+		var __ez_fad_gptd = false;var __ez_fad_ezpbinitd = false;function __ez_fad_gpt(){if(__ez_fad_gptd == false){__ez_fad_gptd=true;(function(){var gads=document.createElement('script');gads.async=true;gads.type='text/javascript';var useSSL='https:'==document.location.protocol;gads.src=(useSSL?'https:':'http:')+
+'//securepubads.g.doubleclick.net/tag/js/gpt.js';var node=document.getElementsByTagName('script')[0];node.parentNode.insertBefore(gads,node);})();}}function __ez_fad_pb(){if(__ez_fad_ezpbinitd==false && typeof __ez_fad_ezpbinit == 'function'){__ez_fad_ezpbinitd = true;__ez_fad_ezpbinit()}};
+		__ez_fad_initslot['div-gpt-ad-trulygeeky_com-large-billboard-2-0'] = function(bvr){
+				googletag.cmd.push(function() {
+				var did = 'div-gpt-ad-trulygeeky_com-large-billboard-2-0';
+				ezslot_3 = googletag.defineSlot('/1254144/trulygeeky_com-large-billboard-2',[[336,280],[300,250],[320,50],[200,200],[125,125],[250,250],[320,100],[120,240],[180,150],[234,60],['fluid']],'div-gpt-ad-trulygeeky_com-large-billboard-2-0').addService(googletag.pubads()).setCollapseEmptyDiv(false);ezSetTargetingFromMap(ezslot_3,{'a':'1','iid1':'6775638983830757','eid':'6775638983830757','t':'134','d':'9268','t1':'134','pvc':'0','ap':'1111','sap':'1111','a':'|251|','as':'revenue','plat':'1','bra':'mod68','ic':'1','at':'mbf','adr':'399','ezosn':'3','reft':'tf','refs':'30','ga':'2497208','gala':'','rid':'99998','pt':'0','al':'1034','compid':'0','tap':'trulygeeky_com-large-billboard-2-6775638983830757','eb_br':'674294a1b21a1e89fc99c14c9b17be44','eba':'1','ebss':[10017,10082,11304,11307],'asau':'9543349032','bv':'0','bvm':'3','bvr':'6','shp':'3','ftsn':'3','br1':'28','br2':'14','ezoic':'1','nmau':'0','mau':'0','stl':[34,0,28,67,45,122,66,20,71,30,0,31],'deal1':[17,19,20,21,22,23,24,25,26,919,783],'ax_ssid':'10082'});ezrpos[3]="3";ezslots.push("ezslot_3");
+				if(bvr != null){
+					if(typeof __ez_fad_fastslots['div-gpt-ad-trulygeeky_com-large-billboard-2-0'] == 'function') {
+						__ez_fad_fastslots['div-gpt-ad-trulygeeky_com-large-billboard-2-0']();
+					}
+				}
+				if(typeof ezSlotKVStore != 'undefined' && typeof ezSlotKVStore[did] != 'undefined') {
+					for (var name in ezSlotKVStore[did]) {
+						if (!ezSlotKVStore.hasOwnProperty(name)) {
+							ezSetSlotTargeting(did, name, ezSlotKVStore[did][name]);
+						}
+					}
+					ezSlotKVStore[did] = {};
+				}
+			});return "ezslot_3";};
+			__ez_fad_fastslots['div-gpt-ad-trulygeeky_com-large-billboard-2-0'] = function(){__ez_fad_fastdiv.push('div-gpt-ad-trulygeeky_com-large-billboard-2-0'); __ez_fad_fast('3',10,null);};
+			__ez_fad_viewslots['div-gpt-ad-trulygeeky_com-large-billboard-2-0'] = function(){__ez_fad_fastdiv.push('div-gpt-ad-trulygeeky_com-large-billboard-2-0'); __ez_fad_fast('3',22,null);};
+			__ez_fad_instaslots['div-gpt-ad-trulygeeky_com-large-billboard-2-0'] = function(){__ez_fad_fastdiv.push('div-gpt-ad-trulygeeky_com-large-billboard-2-0'); __ez_fad_fast('3',0,0);};__ez_fad_initslot['div-gpt-ad-trulygeeky_com-medrectangle-1-0'] = function(bvr){
+				googletag.cmd.push(function() {
+				var did = 'div-gpt-ad-trulygeeky_com-medrectangle-1-0';
+				ezslot_6 = googletag.defineSlot('/1254144/trulygeeky_com-medrectangle-1',[[970,250],[468,60],[970,90],[728,90],[300,250],[320,50],[250,250],[320,100],[120,240],[200,200],[180,150],[125,125],[234,60],['fluid']],'div-gpt-ad-trulygeeky_com-medrectangle-1-0').addService(googletag.pubads()).setCollapseEmptyDiv(false);ezSetTargetingFromMap(ezslot_6,{'a':'1','iid1':'1074031335807313','eid':'1074031335807313','t':'134','d':'9268','t1':'134','pvc':'0','ap':'1109','sap':'1109','a':'|3|','as':'revenue','plat':'1','bra':'mod68','ic':'1','at':'mbf','adr':'399','ezosn':'6','reft':'tf','refs':'30','ga':'2497208','gala':'','rid':'99998','pt':'4','al':'1004','compid':'0','tap':'trulygeeky_com-medrectangle-1-1074031335807313','eb_br':'b6c98a8bb15764f1c4ee331dcb724178','eba':'1','ebss':[10017,10082,11304,11307],'asau':'9543349032','bv':'0','bvm':'2','bvr':'1','shp':'1','ftsn':'3','acptad':'1','br1':'2','br2':'0','ezoic':'1','nmau':'0','mau':'0','stl':[63,14,28,4,51,0,88,0,71,30,0,31],'deal1':[17,18,19,20,21,22,23,24,25,26,919,1428,783],'ax_ssid':'10082'});ezrpos[6]="6";ezslots.push("ezslot_6");
+				if(bvr != null){
+					if(typeof __ez_fad_fastslots['div-gpt-ad-trulygeeky_com-medrectangle-1-0'] == 'function') {
+						__ez_fad_fastslots['div-gpt-ad-trulygeeky_com-medrectangle-1-0']();
+					}
+				}
+				if(typeof ezSlotKVStore != 'undefined' && typeof ezSlotKVStore[did] != 'undefined') {
+					for (var name in ezSlotKVStore[did]) {
+						if (!ezSlotKVStore.hasOwnProperty(name)) {
+							ezSetSlotTargeting(did, name, ezSlotKVStore[did][name]);
+						}
+					}
+					ezSlotKVStore[did] = {};
+				}
+			});return "ezslot_6";};
+			__ez_fad_fastslots['div-gpt-ad-trulygeeky_com-medrectangle-1-0'] = function(){__ez_fad_fastdiv.push('div-gpt-ad-trulygeeky_com-medrectangle-1-0'); __ez_fad_fast('6',0,null);};
+			__ez_fad_viewslots['div-gpt-ad-trulygeeky_com-medrectangle-1-0'] = function(){__ez_fad_fastdiv.push('div-gpt-ad-trulygeeky_com-medrectangle-1-0'); __ez_fad_fast('6',2,null);};
+			__ez_fad_instaslots['div-gpt-ad-trulygeeky_com-medrectangle-1-0'] = function(){__ez_fad_fastdiv.push('div-gpt-ad-trulygeeky_com-medrectangle-1-0'); __ez_fad_fast('6',0,0);};__ez_fad_initslot['div-gpt-ad-trulygeeky_com-box-2-0'] = function(bvr){
+				googletag.cmd.push(function() {
+				var did = 'div-gpt-ad-trulygeeky_com-box-2-0';
+				ezslot_5 = googletag.defineSlot('/1254144/trulygeeky_com-box-2',[728,90],'div-gpt-ad-trulygeeky_com-box-2-0').addService(googletag.pubads()).setCollapseEmptyDiv(false);ezSetTargetingFromMap(ezslot_5,{'a':'1','iid1':'7205589827779783','eid':'7205589827779783','t':'134','d':'9268','t1':'134','pvc':'0','ap':'1105','sap':'1105','a':'|3|','as':'revenue','plat':'1','bra':'mod68','ic':'1','at':'mbf','adr':'399','ezosn':'5','reft':'tf','refs':'30','ga':'2497208','gala':'','rid':'99998','pt':'1','al':'1001','compid':'0','tap':'trulygeeky_com-box-2-7205589827779783','eb_br':'14e8a85d4c42ff1db8790cbef9e33493','eba':'1','ebss':[10017,10082,11304,11307],'asau':'9543349032','bv':'0','bvm':'1','bvr':'4','shp':'1','ftsn':'3','acptad':'1','br1':'12','br2':'6','ezoic':'1','nmau':'0','mau':'0','stl':[63,14,28,4,51,0,88,0,71,30,0,31],'deal1':[17,18,19,20,21,22,23,24,25,26,919,1428,783],'ax_ssid':'10082'});ezrpos[5]="5";ezslots.push("ezslot_5");
+				if(bvr != null){
+					if(typeof __ez_fad_fastslots['div-gpt-ad-trulygeeky_com-box-2-0'] == 'function') {
+						__ez_fad_fastslots['div-gpt-ad-trulygeeky_com-box-2-0']();
+					}
+				}
+				if(typeof ezSlotKVStore != 'undefined' && typeof ezSlotKVStore[did] != 'undefined') {
+					for (var name in ezSlotKVStore[did]) {
+						if (!ezSlotKVStore.hasOwnProperty(name)) {
+							ezSetSlotTargeting(did, name, ezSlotKVStore[did][name]);
+						}
+					}
+					ezSlotKVStore[did] = {};
+				}
+			});return "ezslot_5";};
+			__ez_fad_fastslots['div-gpt-ad-trulygeeky_com-box-2-0'] = function(){__ez_fad_fastdiv.push('div-gpt-ad-trulygeeky_com-box-2-0'); __ez_fad_fast('5',4,null);};
+			__ez_fad_viewslots['div-gpt-ad-trulygeeky_com-box-2-0'] = function(){__ez_fad_fastdiv.push('div-gpt-ad-trulygeeky_com-box-2-0'); __ez_fad_fast('5',10,null);};
+			__ez_fad_instaslots['div-gpt-ad-trulygeeky_com-box-2-0'] = function(){__ez_fad_fastdiv.push('div-gpt-ad-trulygeeky_com-box-2-0'); __ez_fad_fast('5',0,0);};__ez_fad_initslot['div-gpt-ad-trulygeeky_com-banner-1-0'] = function(bvr){
+				googletag.cmd.push(function() {
+				var did = 'div-gpt-ad-trulygeeky_com-banner-1-0';
+				ezslot_1 = googletag.defineSlot('/1254144/trulygeeky_com-banner-1',[[580,400],[320,50],[468,60],[234,60],[728,90],['fluid']],'div-gpt-ad-trulygeeky_com-banner-1-0').addService(googletag.pubads()).setCollapseEmptyDiv(false);ezSetTargetingFromMap(ezslot_1,{'a':'1','iid1':'4823897793821831','eid':'4823897793821831','t':'134','d':'9268','t1':'134','pvc':'0','ap':'1102','sap':'1102','a':'|2|','as':'revenue','plat':'1','bra':'mod68','ic':'1','at':'mbf','adr':'399','ezosn':'1','reft':'tf','refs':'30','ga':'2497208','gala':'','rid':'99998','pt':'30','al':'1030','compid':'0','tap':'trulygeeky_com-banner-1-4823897793821831','eb_br':'674294a1b21a1e89fc99c14c9b17be44','eba':'1','ebss':[10017,10082,11304,11307],'asau':'9543349032','bv':'0','bvm':'1','bvr':'1','shp':'1','ftsn':'3','br1':'28','br2':'14','ezoic':'1','nmau':'0','mau':'0','stl':[34,0,28,67,45,122,66,0,71,30,0,31],'deal1':[17,19,20,21,22,23,24,25,26,919,783],'ax_ssid':'10082'});ezrpos[1]="1";ezslots.push("ezslot_1");
+				if(bvr != null){
+					if(typeof __ez_fad_fastslots['div-gpt-ad-trulygeeky_com-banner-1-0'] == 'function') {
+						__ez_fad_fastslots['div-gpt-ad-trulygeeky_com-banner-1-0']();
+					}
+				}
+				if(typeof ezSlotKVStore != 'undefined' && typeof ezSlotKVStore[did] != 'undefined') {
+					for (var name in ezSlotKVStore[did]) {
+						if (!ezSlotKVStore.hasOwnProperty(name)) {
+							ezSetSlotTargeting(did, name, ezSlotKVStore[did][name]);
+						}
+					}
+					ezSlotKVStore[did] = {};
+				}
+			});return "ezslot_1";};
+			__ez_fad_fastslots['div-gpt-ad-trulygeeky_com-banner-1-0'] = function(){__ez_fad_fastdiv.push('div-gpt-ad-trulygeeky_com-banner-1-0'); __ez_fad_fast('1',10,null);};
+			__ez_fad_viewslots['div-gpt-ad-trulygeeky_com-banner-1-0'] = function(){__ez_fad_fastdiv.push('div-gpt-ad-trulygeeky_com-banner-1-0'); __ez_fad_fast('1',22,null);};
+			__ez_fad_instaslots['div-gpt-ad-trulygeeky_com-banner-1-0'] = function(){__ez_fad_fastdiv.push('div-gpt-ad-trulygeeky_com-banner-1-0'); __ez_fad_fast('1',0,0);};__ez_fad_initslot['div-gpt-ad-trulygeeky_com-box-4-0'] = function(bvr){
+				googletag.cmd.push(function() {
+				var did = 'div-gpt-ad-trulygeeky_com-box-4-0';
+				ezslot_2 = googletag.defineSlot('/1254144/trulygeeky_com-box-4',[300,250],'div-gpt-ad-trulygeeky_com-box-4-0').addService(googletag.pubads()).setCollapseEmptyDiv(false);ezSetTargetingFromMap(ezslot_2,{'a':'1','iid1':'4668588817772908','eid':'4668588817772908','t':'134','d':'9268','t1':'134','pvc':'0','ap':'1100','sap':'1100','a':'|3|','as':'revenue','plat':'1','bra':'mod68','ic':'1','at':'mbf','adr':'399','ezosn':'2','reft':'n','refs':'30','ga':'2497208','gala':'','rid':'99998','pt':'3','al':'1003','compid':'0','tap':'trulygeeky_com-box-4-4668588817772908','eb_br':'e29f69dd468d31a5514dc9b5587ce757','eba':'1','ebss':[10017,10082,11304,11307],'asau':'9543349032','bv':'5','bvm':'0','bvr':'5','shp':'2','ftsn':'3','br1':'16','br2':'8','ezoic':'1','nmau':'0','mau':'0','stl':[32,168,0,4,0,193,20,20,71,30,192,31],'deal1':[17,18,19,20,21,22,23,24,25,26,919,1428,783],'ax_ssid':'10082'});ezrpos[2]="2";ezslots.push("ezslot_2");
+				if(bvr != null){
+					if(typeof __ez_fad_fastslots['div-gpt-ad-trulygeeky_com-box-4-0'] == 'function') {
+						__ez_fad_fastslots['div-gpt-ad-trulygeeky_com-box-4-0']();
+					}
+				}
+				if(typeof ezSlotKVStore != 'undefined' && typeof ezSlotKVStore[did] != 'undefined') {
+					for (var name in ezSlotKVStore[did]) {
+						if (!ezSlotKVStore.hasOwnProperty(name)) {
+							ezSetSlotTargeting(did, name, ezSlotKVStore[did][name]);
+						}
+					}
+					ezSlotKVStore[did] = {};
+				}
+			});return "ezslot_2";};
+			__ez_fad_fastslots['div-gpt-ad-trulygeeky_com-box-4-0'] = function(){__ez_fad_fastdiv.push('div-gpt-ad-trulygeeky_com-box-4-0'); __ez_fad_fast('2',6,null);};
+			__ez_fad_viewslots['div-gpt-ad-trulygeeky_com-box-4-0'] = function(){__ez_fad_fastdiv.push('div-gpt-ad-trulygeeky_com-box-4-0'); __ez_fad_fast('2',12,null);};
+			__ez_fad_instaslots['div-gpt-ad-trulygeeky_com-box-4-0'] = function(){__ez_fad_fastdiv.push('div-gpt-ad-trulygeeky_com-box-4-0'); __ez_fad_fast('2',0,0);};__ez_fad_initslot['div-gpt-ad-trulygeeky_com-box-1-0'] = function(bvr){
+				googletag.cmd.push(function() {
+				var did = 'div-gpt-ad-trulygeeky_com-box-1-0';
+				ezslot_4 = googletag.defineSlot('/1254144/trulygeeky_com-box-1',[300,250],'div-gpt-ad-trulygeeky_com-box-1-0').addService(googletag.pubads()).setCollapseEmptyDiv(false);ezSetTargetingFromMap(ezslot_4,{'a':'1','iid1':'6009421243787347','eid':'6009421243787347','t':'134','d':'9268','t1':'134','pvc':'0','ap':'1103','sap':'1103','a':'|6|','as':'revenue','plat':'1','bra':'mod68','ic':'1','at':'mbf','adr':'399','ezosn':'4','reft':'tf','refs':'30','ga':'2497208','gala':'','rid':'99998','pt':'0','al':'1000','compid':'0','tap':'trulygeeky_com-box-1-6009421243787347','eb_br':'e29f69dd468d31a5514dc9b5587ce757','eba':'1','ebss':[10017,10082,11304,11307],'asau':'9543349032','bv':'0','bvm':'1','bvr':'2','shp':'2','ftsn':'3','acptad':'1','br1':'16','br2':'8','ezoic':'1','nmau':'0','mau':'0','stl':[83,0,28,67,45,122,66,20,71,30,0,31],'deal1':[17,18,19,20,21,22,23,24,25,26,919,1428,783],'ax_ssid':'10082'});ezrpos[4]="4";ezslots.push("ezslot_4");
+				if(bvr != null){
+					if(typeof __ez_fad_fastslots['div-gpt-ad-trulygeeky_com-box-1-0'] == 'function') {
+						__ez_fad_fastslots['div-gpt-ad-trulygeeky_com-box-1-0']();
+					}
+				}
+				if(typeof ezSlotKVStore != 'undefined' && typeof ezSlotKVStore[did] != 'undefined') {
+					for (var name in ezSlotKVStore[did]) {
+						if (!ezSlotKVStore.hasOwnProperty(name)) {
+							ezSetSlotTargeting(did, name, ezSlotKVStore[did][name]);
+						}
+					}
+					ezSlotKVStore[did] = {};
+				}
+			});return "ezslot_4";};
+			__ez_fad_fastslots['div-gpt-ad-trulygeeky_com-box-1-0'] = function(){__ez_fad_fastdiv.push('div-gpt-ad-trulygeeky_com-box-1-0'); __ez_fad_fast('4',6,null);};
+			__ez_fad_viewslots['div-gpt-ad-trulygeeky_com-box-1-0'] = function(){__ez_fad_fastdiv.push('div-gpt-ad-trulygeeky_com-box-1-0'); __ez_fad_fast('4',12,null);};
+			__ez_fad_instaslots['div-gpt-ad-trulygeeky_com-box-1-0'] = function(){__ez_fad_fastdiv.push('div-gpt-ad-trulygeeky_com-box-1-0'); __ez_fad_fast('4',0,0);};__ez_fad_initslot['div-gpt-ad-trulygeeky_com-box-3-0'] = function(bvr){
+				googletag.cmd.push(function() {
+				var did = 'div-gpt-ad-trulygeeky_com-box-3-0';
+				ezslot_0 = googletag.defineSlot('/1254144/trulygeeky_com-box-3',[300,250],'div-gpt-ad-trulygeeky_com-box-3-0').addService(googletag.pubads()).setCollapseEmptyDiv(false);ezSetTargetingFromMap(ezslot_0,{'a':'1','iid1':'8347865213777476','eid':'8347865213777476','t':'134','d':'9268','t1':'134','pvc':'0','ap':'1104','sap':'1104','a':'|1|','as':'revenue','plat':'1','bra':'mod68','ic':'1','at':'mbf','adr':'399','ezosn':'0','reft':'tf','refs':'30','ga':'2497208','gala':'','rid':'99998','pt':'2','al':'1002','compid':'0','tap':'trulygeeky_com-box-3-8347865213777476','eb_br':'291d27313eb66c50243129b23df8a579','eba':'1','ebss':[10017,10082,11304,11307],'asau':'9543349032','bv':'25','bvm':'1','bvr':'5','shp':'1','ftsn':'3','br1':'10','br2':'4','ezoic':'1','nmau':'0','mau':'0','stl':[32,131,0,67,0,168,77,192,26,201,187,67],'deal1':[17,18,19,20,21,22,23,24,25,26,919,1428,783],'ax_ssid':'10082'});ezrpos[0]="0";ezslots.push("ezslot_0");
+				if(bvr != null){
+					if(typeof __ez_fad_fastslots['div-gpt-ad-trulygeeky_com-box-3-0'] == 'function') {
+						__ez_fad_fastslots['div-gpt-ad-trulygeeky_com-box-3-0']();
+					}
+				}
+				if(typeof ezSlotKVStore != 'undefined' && typeof ezSlotKVStore[did] != 'undefined') {
+					for (var name in ezSlotKVStore[did]) {
+						if (!ezSlotKVStore.hasOwnProperty(name)) {
+							ezSetSlotTargeting(did, name, ezSlotKVStore[did][name]);
+						}
+					}
+					ezSlotKVStore[did] = {};
+				}
+			});return "ezslot_0";};
+			__ez_fad_fastslots['div-gpt-ad-trulygeeky_com-box-3-0'] = function(){__ez_fad_fastdiv.push('div-gpt-ad-trulygeeky_com-box-3-0'); __ez_fad_fast('0',4,null);};
+			__ez_fad_viewslots['div-gpt-ad-trulygeeky_com-box-3-0'] = function(){__ez_fad_fastdiv.push('div-gpt-ad-trulygeeky_com-box-3-0'); __ez_fad_fast('0',8,null);};
+			__ez_fad_instaslots['div-gpt-ad-trulygeeky_com-box-3-0'] = function(){__ez_fad_fastdiv.push('div-gpt-ad-trulygeeky_com-box-3-0'); __ez_fad_fast('0',0,0);};</script>
+<script type="text/javascript">(function(){function storageAvailable(type){var storage;try{storage=window[type];var x='__storage_test__';storage.setItem(x,x);storage.removeItem(x);return true;}
+catch(e){return e instanceof DOMException&&(e.code===22||e.code===1014||e.name==='QuotaExceededError'||e.name==='NS_ERROR_DOM_QUOTA_REACHED')&&(storage&&storage.length!==0);}}
+function remove_ama_config(){if(storageAvailable('localStorage')){localStorage.removeItem("google_ama_config");}}
+remove_ama_config()})()</script>
+<script type="text/javascript">var ezoicTestActive = true</script>
+<script data-ezscrex="false" type="text/javascript" data-cfasync="false">var _ezaq = {"ad_cache_level":1,"ad_count_adjustment":2,"ad_lazyload_version":4,"ad_load_version":2,"ad_location_ids":"2,30,3,34,0,1,4","ad_transform_level":0,"adx_ad_count":7,"bidder_method":1,"bidder_version":2,"city":"Pune","country":"IN","days_since_last_visit":-1,"display_ad_count":7,"domain_id":9268,"domain_test_group":20210302,"ds_adsize_opt_id":-1,"engaged_time_visit":0,"ezcache_level":1,"ezcache_skip_code":0,"form_factor_id":1,"framework_id":1,"has_bad_image":0,"has_bad_words":0,"iab_category":"","iab_category_0":"552","iab_category_1":"574","iab_category_2":"596","iab_category_3":"422","is_from_recommended_pages":false,"is_return_visitor":false,"is_sitespeed":0,"last_page_load":"","last_pageview_id":"","lt_cache_level":0,"max_ads":10,"metro_code":0,"optimization_version":1,"page_ad_positions":"1100,1102,1103,1104,1105,1109,1111","page_view_count":0,"page_view_id":"983e678b-5945-46a2-66cf-ecbed677d985","position_selection_id":39,"postal_code":"411001","pv_event_count":0,"response_size_orig":84524,"response_time_orig":1433,"serverid":"3.109.217.133:20967","state":"MH","sub_page_ad_positions":"1100,1102,1103,1104,1105,1109,1111","t_epoch":1638154969,"template_id":134,"time_on_site_visit":0,"url":"https://www.trulygeeky.com/speacial-rakhi-gifts-for-your-brother/","user_id":0,"word_count":1337,"worst_bad_word_level":0};var _ezim_d = {"trulygeeky_com-banner-1":{"adsense_stat_source_id":5,"adx_ad_count":7,"adx_stat_source_id":35,"full_id":"trulygeeky_com-banner-1/2021-11-28/4823897793821831","height":"400","position_id":1102,"sub_position_id":1102,"width":"580"},"trulygeeky_com-box-1":{"adsense_stat_source_id":5,"adx_ad_count":7,"adx_stat_source_id":35,"full_id":"trulygeeky_com-box-1/2021-11-28/6009421243787347","height":"250","position_id":1103,"sub_position_id":1103,"width":"300"},"trulygeeky_com-box-2":{"adsense_stat_source_id":5,"adx_ad_count":7,"adx_stat_source_id":35,"full_id":"trulygeeky_com-box-2/2021-11-28/7205589827779783","height":"90","position_id":1105,"sub_position_id":1105,"width":"728"},"trulygeeky_com-box-3":{"adsense_stat_source_id":5,"adx_ad_count":7,"adx_stat_source_id":35,"full_id":"trulygeeky_com-box-3/2021-11-28/8347865213777476","height":"250","position_id":1104,"sub_position_id":1104,"width":"300"},"trulygeeky_com-box-4":{"adsense_stat_source_id":5,"adx_ad_count":7,"adx_stat_source_id":35,"full_id":"trulygeeky_com-box-4/2021-11-28/4668588817772908","height":"250","position_id":1100,"sub_position_id":1100,"width":"300"},"trulygeeky_com-large-billboard-2":{"adsense_stat_source_id":5,"adx_ad_count":7,"adx_stat_source_id":35,"full_id":"trulygeeky_com-large-billboard-2/2021-11-28/6775638983830757","height":"280","position_id":1111,"sub_position_id":1111,"width":"336"},"trulygeeky_com-medrectangle-1":{"adsense_stat_source_id":5,"adx_ad_count":7,"adx_stat_source_id":35,"full_id":"trulygeeky_com-medrectangle-1/2021-11-28/1074031335807313","height":"250","position_id":1109,"sub_position_id":1109,"width":"970"}};var _ezat = {"domain_id":9268,"form_factor_id":1,"framework_id":1,"pageview_date":"2021-11-28","pageview_id":"983e678b-5945-46a2-66cf-ecbed677d985","template_id":134,"url":"https://www.trulygeeky.com/speacial-rakhi-gifts-for-your-brother/","visit_uuid":"fa49fd3f-caeb-41f2-404b-81323b99a469"};</script><script data-ezscrex="false" data-pagespeed-no-defer data-cfasync="false" type="text/javascript">__ez.queue.addFile('banger.js', '/porpoiseant/banger.js?cb=195-10&bv=86&v=57&PageSpeed=off', true, [], true, false, false, true);</script>
+<script data-ezscrex='false' data-cfasync='false' data-pagespeed-no-defer>__ez.vep=(function(){var pixels=[],pxURL="/detroitchicago/grapefruit.gif";function AddPixel(vID,pixelData){if(__ez.dot.isDefined(vID)&&__ez.dot.isValid(pixelData)){pixels.push({type:'video',video_impression_id:vID,domain_id:__ez.dot.getDID(),t_epoch:__ez.dot.getEpoch(0),data:__ez.dot.dataToStr(pixelData)});}}
+function Fire(){if(typeof document.visibilityState!=='undefined'&&document.visibilityState==="prerender"){return;}
+if(__ez.dot.isDefined(pixels)&&pixels.length>0){while(pixels.length>0){var j=5;if(j>pixels.length){j=pixels.length;}
+var pushPixels=pixels.splice(0,j);var pixelURL=__ez.dot.getURL(pxURL)+"?orig="+(__ez.template.isOrig===true?1:0)+"&v="+btoa(JSON.stringify(pushPixels));__ez.dot.Fire(pixelURL);}}
+pixels=[];}
+return{Add:AddPixel,Fire:Fire};})();</script><script data-ezscrex='false' data-cfasync='false' data-pagespeed-no-defer>!function(){function e(i){return e="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e},e(i)}__ez.pel=function(){var i=[];function t(t,o,_,d,n,r,a,s){if(__ez.dot.isDefined(t)&&0!=__ez.dot.isAnyDefined(t.getSlotElementId,t.ElementId)){var p=parseInt(__ez.dot.getTargeting(t,"ap")),f=__ez.dot.getSlotIID(t),u=__ez.dot.getAdUnit(t,s),g=parseInt(__ez.dot.getTargeting(t,"compid")),c=0,l=0,z=function(i){if("undefined"==typeof _ezim_d)return!1;var t=__ez.dot.getAdUnitPath(i).split("/").pop();if("object"===("undefined"==typeof _ezim_d?"undefined":e(_ezim_d))&&_ezim_d.hasOwnProperty(t))return _ezim_d[t];for(var o in _ezim_d)if(o.split("/").pop()===t)return _ezim_d[o];return!1}(t);"object"==e(z)&&(void 0!==z.creative_id&&(l=z.creative_id),void 0!==z.line_item_id&&(c=z.line_item_id)),__ez.dot.isDefined(f,u)&&__ez.dot.isValid(o)&&i.push({type:"impression",impression_id:f,domain_id:__ez.dot.getDID(),unit:u,t_epoch:__ez.dot.getEpoch(0),revenue:_,est_revenue:d,ad_position:p,ad_size:"",bid_floor_filled:n,bid_floor_prev:r,stat_source_id:a,country_code:__ez.dot.getCC(),pageview_id:__ez.dot.getPageviewId(),comp_id:g,line_item_id:c,creative_id:l,data:__ez.dot.dataToStr(o),is_orig:s||__ez.template.isOrig})}}function o(){void 0!==document.visibilityState&&"prerender"===document.visibilityState||(__ez.dot.isDefined(i)&&i.length>0&&[i.filter((function(e){return e.is_orig})),i.filter((function(e){return!e.is_orig}))].forEach((function(e){for(;e.length>0;){var i=e[0].is_orig||!1,t=5;t>e.length&&(t=e.length);var o=e.splice(0,t),_=__ez.dot.getURL("/porpoiseant/army.gif")+"?orig="+(!0===i?1:0)+"&sts="+btoa(JSON.stringify(o));void 0!==window.isAmp&&isAmp&&void 0!==window._ezaq&&_ezaq.hasOwnProperty("domain_id")&&(_+="&visit_uuid="+_ezaq.visit_uuid),__ez.dot.Fire(_)}})),i=[])}return{Add:t,AddAndFire:function(e,i){t(e,i,0,0,0,0,0),o()},AddAndFireOrig:function(e,i){t(e,i,0,0,0,0,0,!0),o()},AddById:function(e,t,o){var _=e.split("/");if(__ez.dot.isDefined(e)&&3===_.length&&__ez.dot.isValid(t)){var d=_[0],n=_[2];i.push({type:"impression",impression_id:n,domain_id:__ez.dot.getDID(),unit:d,t_epoch:__ez.dot.getEpoch(0),pageview_id:__ez.dot.getPageviewId(),data:__ez.dot.dataToStr(t),is_orig:o||__ez.template.isOrig})}},Fire:o,GetPixels:function(){return i}}}()}();</script>
+    
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+   <style type="text/css">			.heateorSssInstagramBackground{background:radial-gradient(circle at 30% 107%,#fdf497 0,#fdf497 5%,#fd5949 45%,#d6249f 60%,#285aeb 90%)}
+											.heateor_sss_horizontal_sharing .heateorSssSharing,.heateor_sss_standard_follow_icons_container .heateorSssSharing{
+							color: #fff;
+						border-width: 0px;
+			border-style: solid;
+			border-color: transparent;
+		}
+				.heateor_sss_horizontal_sharing .heateorSssTCBackground{
+			color:#666;
+		}
+				.heateor_sss_horizontal_sharing .heateorSssSharing:hover,.heateor_sss_standard_follow_icons_container .heateorSssSharing:hover{
+						border-color: transparent;
+		}
+		.heateor_sss_vertical_sharing .heateorSssSharing,.heateor_sss_floating_follow_icons_container .heateorSssSharing{
+							color: #fff;
+						border-width: 0px;
+			border-style: solid;
+			border-color: transparent;
+		}
+				.heateor_sss_vertical_sharing .heateorSssTCBackground{
+			color:#666;
+		}
+				.heateor_sss_vertical_sharing .heateorSssSharing:hover,.heateor_sss_floating_follow_icons_container .heateorSssSharing:hover{
+						border-color: transparent;
+		}
+		
+		@media screen and (max-width:783px) {.heateor_sss_vertical_sharing{display:none!important}}@media screen and (max-width:783px) {.heateor_sss_floating_follow_icons_container{display:none!important}}div.heateor_sss_mobile_footer{display:none;}@media screen and (max-width:783px){i.heateorSssTCBackground{background-color:white!important}div.heateor_sss_bottom_sharing{width:100%!important;left:0!important;}div.heateor_sss_bottom_sharing li{width:100% !important;}div.heateor_sss_bottom_sharing .heateorSssSharing{width: 100% !important;}div.heateor_sss_bottom_sharing div.heateorSssTotalShareCount{font-size:1em!important;line-height:28px!important}div.heateor_sss_bottom_sharing div.heateorSssTotalShareText{font-size:.7em!important;line-height:0px!important}div.heateor_sss_mobile_footer{display:block;height:40px;}.heateor_sss_bottom_sharing{padding:0!important;display:block!important;width: auto!important;bottom:-2px!important;top: auto!important;}.heateor_sss_bottom_sharing .heateor_sss_square_count{line-height: inherit;}.heateor_sss_bottom_sharing .heateorSssSharingArrow{display:none;}.heateor_sss_bottom_sharing .heateorSssTCBackground{margin-right: 1.1em !important}}</style>
+<!-- Search Engine Optimization by Rank Math - https://s.rankmath.com/home -->
+<title>Top 9 Rakhi Gifts To Say “Thanks For Being The Best Brother” | TrulyGeeky</title>
+<meta name="description" content="Raksha Bandhan is the ideal time to put a thankful note towards your brother with special rakhi gifts.Here we have listed some of the unique gift ideas."/>
+<meta name="robots" content="follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"/>
+<link rel="canonical" href="https://www.trulygeeky.com/speacial-rakhi-gifts-for-your-brother/"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:type" content="article"/>
+<meta property="og:title" content="Top 9 Rakhi Gifts To Say “Thanks For Being The Best Brother” | TrulyGeeky"/>
+<meta property="og:description" content="Raksha Bandhan is the ideal time to put a thankful note towards your brother with special rakhi gifts.Here we have listed some of the unique gift ideas."/>
+<meta property="og:url" content="https://www.trulygeeky.com/speacial-rakhi-gifts-for-your-brother/"/>
+<meta property="og:site_name" content="TrulyGeeky"/>
+<meta property="article:publisher" content="https://www.facebook.com/trulygeeky"/>
+<meta property="article:author" content="https://www.facebook.com/emmasansi"/>
+<meta property="article:section" content="Entertainment"/>
+<meta property="og:updated_time" content="2020-02-24T14:38:24+00:00"/>
+<meta property="og:image" content="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2019/06/Raksha-Bhandhan-Gift-Ideas.png"/>
+<meta property="og:image:secure_url" content="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2019/06/Raksha-Bhandhan-Gift-Ideas.png"/>
+<meta property="og:image:width" content="600"/>
+<meta property="og:image:height" content="375"/>
+<meta property="og:image:alt" content="rakhi gifts"/>
+<meta property="og:image:type" content="image/png"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="Top 9 Rakhi Gifts To Say “Thanks For Being The Best Brother” | TrulyGeeky"/>
+<meta name="twitter:description" content="Raksha Bandhan is the ideal time to put a thankful note towards your brother with special rakhi gifts.Here we have listed some of the unique gift ideas."/>
+<meta name="twitter:site" content="@trulygeeky"/>
+<meta name="twitter:creator" content="@trulygeeky"/>
+<meta name="twitter:image" content="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2019/06/Raksha-Bhandhan-Gift-Ideas.png"/>
+<script type="application/ld+json" class="rank-math-schema">{
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": [
+                "Person",
+                "Organization"
+            ],
+            "@id": "https://www.trulygeeky.com/#person",
+            "name": "Lisa Williams",
+            "image": {
+                "@type": "ImageObject",
+                "url": "https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2019/08/ADS.png"
+            }
+        },
+        {
+            "@type": "WebSite",
+            "@id": "https://www.trulygeeky.com/#website",
+            "url": "https://www.trulygeeky.com",
+            "name": "Lisa Williams",
+            "publisher": {
+                "@id": "https://www.trulygeeky.com/#person"
+            },
+            "inLanguage": "en-US",
+            "potentialAction": {
+                "@type": "SearchAction",
+                "target": "https://www.trulygeeky.com/?s={search_term_string}",
+                "query-input": "required name=search_term_string"
+            }
+        },
+        {
+            "@type": "ImageObject",
+            "@id": "https://www.trulygeeky.com/speacial-rakhi-gifts-for-your-brother/#primaryImage",
+            "url": "https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2019/06/Raksha-Bhandhan-Gift-Ideas.png",
+            "width": 600,
+            "height": 375
+        },
+        {
+            "@type": "BreadcrumbList",
+            "@id": "https://www.trulygeeky.com/speacial-rakhi-gifts-for-your-brother/#breadcrumb",
+            "itemListElement": [
+                {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "item": {
+                        "@id": "https://www.trulygeeky.com",
+                        "name": "Home"
+                    }
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "item": {
+                        "@id": "https://www.trulygeeky.com/speacial-rakhi-gifts-for-your-brother/",
+                        "name": "Top 9 Rakhi Gifts To Say \u201cThanks For Being The Best Brother\u201d"
+                    }
+                }
+            ]
+        },
+        {
+            "@type": "WebPage",
+            "@id": "https://www.trulygeeky.com/speacial-rakhi-gifts-for-your-brother/#webpage",
+            "url": "https://www.trulygeeky.com/speacial-rakhi-gifts-for-your-brother/",
+            "name": "Top 9 Rakhi Gifts To Say \u201cThanks For Being The Best Brother\u201d | TrulyGeeky",
+            "datePublished": "2019-06-13T13:11:24+00:00",
+            "dateModified": "2020-02-24T14:38:24+00:00",
+            "isPartOf": {
+                "@id": "https://www.trulygeeky.com/#website"
+            },
+            "primaryImageOfPage": {
+                "@id": "https://www.trulygeeky.com/speacial-rakhi-gifts-for-your-brother/#primaryImage"
+            },
+            "inLanguage": "en-US",
+            "breadcrumb": {
+                "@id": "https://www.trulygeeky.com/speacial-rakhi-gifts-for-your-brother/#breadcrumb"
+            }
+        },
+        {
+            "@type": "BlogPosting",
+            "headline": "Top 9 Rakhi Gifts To Say \u201cThanks For Being The Best Brother\u201d | TrulyGeeky",
+            "datePublished": "2019-06-13T13:11:24+00:00",
+            "dateModified": "2020-02-24T14:38:24+00:00",
+            "author": {
+                "@type": "Person",
+                "name": "Lisa Williams"
+            },
+            "publisher": {
+                "@id": "https://www.trulygeeky.com/#person"
+            },
+            "description": "Raksha Bandhan is the ideal time to put a thankful note towards your brother with special rakhi gifts.Here we have listed some of the unique gift ideas.",
+            "@id": "https://www.trulygeeky.com/speacial-rakhi-gifts-for-your-brother/#richSnippet",
+            "isPartOf": {
+                "@id": "https://www.trulygeeky.com/speacial-rakhi-gifts-for-your-brother/#webpage"
+            },
+            "image": {
+                "@id": "https://www.trulygeeky.com/speacial-rakhi-gifts-for-your-brother/#primaryImage"
+            },
+            "inLanguage": "en-US",
+            "mainEntityOfPage": {
+                "@id": "https://www.trulygeeky.com/speacial-rakhi-gifts-for-your-brother/#webpage"
+            }
+        }
+    ]
+}</script>
+<!-- /Rank Math WordPress SEO plugin -->
+
+<link rel="dns-prefetch" href="//fonts.googleapis.com"/>
+<link rel="dns-prefetch" href="//s.w.org"/>
+<link rel="alternate" type="application/rss+xml" title="TrulyGeeky » Feed" href="https://www.trulygeeky.com/feed/"/>
+<link rel="alternate" type="application/rss+xml" title="TrulyGeeky » Comments Feed" href="https://www.trulygeeky.com/comments/feed/"/>
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/12.0.0-1\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/12.0.0-1\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/www.trulygeeky.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=5.4.8"}};
+			/*! This file is auto-generated */
+			!function(e,a,t){var n,r,o,i=a.createElement("canvas"),p=i.getContext&&i.getContext("2d");function s(e,t){var a=String.fromCharCode;p.clearRect(0,0,i.width,i.height),p.fillText(a.apply(this,e),0,0);e=i.toDataURL();return p.clearRect(0,0,i.width,i.height),p.fillText(a.apply(this,t),0,0),e===i.toDataURL()}function c(e){var t=a.createElement("script");t.src=e,t.defer=t.type="text/javascript",a.getElementsByTagName("head")[0].appendChild(t)}for(o=Array("flag","emoji"),t.supports={everything:!0,everythingExceptFlag:!0},r=0;r<o.length;r++)t.supports[o[r]]=function(e){if(!p||!p.fillText)return!1;switch(p.textBaseline="top",p.font="600 32px Arial",e){case"flag":return s([127987,65039,8205,9895,65039],[127987,65039,8203,9895,65039])?!1:!s([55356,56826,55356,56819],[55356,56826,8203,55356,56819])&&!s([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]);case"emoji":return!s([55357,56424,55356,57342,8205,55358,56605,8205,55357,56424,55356,57340],[55357,56424,55356,57342,8203,55358,56605,8203,55357,56424,55356,57340])}return!1}(o[r]),t.supports.everything=t.supports.everything&&t.supports[o[r]],"flag"!==o[r]&&(t.supports.everythingExceptFlag=t.supports.everythingExceptFlag&&t.supports[o[r]]);t.supports.everythingExceptFlag=t.supports.everythingExceptFlag&&!t.supports.flag,t.DOMReady=!1,t.readyCallback=function(){t.DOMReady=!0},t.supports.everything||(n=function(){t.readyCallback()},a.addEventListener?(a.addEventListener("DOMContentLoaded",n,!1),e.addEventListener("load",n,!1)):(e.attachEvent("onload",n),a.attachEvent("onreadystatechange",function(){"complete"===a.readyState&&t.readyCallback()})),(n=t.source||{}).concatemoji?c(n.concatemoji):n.wpemoji&&n.twemoji&&(c(n.twemoji),c(n.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+	<link rel="stylesheet" id="wp-block-library-css" href="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-includes/css/dist/block-library/style.min.css?ver=5.4.8" type="text/css" media="all"/>
+<link rel="stylesheet" id="wp-block-library-theme-css" href="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-includes/css/dist/block-library/theme.min.css?ver=5.4.8" type="text/css" media="all"/>
+<link rel="stylesheet" id="kk-star-ratings-css" href="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/plugins/kk-star-ratings/public/css/kk-star-ratings.css?ver=4.1.3" type="text/css" media="all"/>
+<style id="kk-star-ratings-inline-css" type="text/css">
+.kk-star-ratings .kksr-stars .kksr-star {
+        margin-right: 0px;
+    }
+    [dir="rtl"] .kk-star-ratings .kksr-stars .kksr-star {
+        margin-left: 0px;
+        margin-right: 0;
+    }
+</style>
+<link rel="stylesheet" id="wp-table-builder-pro-css" href="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/plugins/wp-table-builder-pro/inc/frontend/css/wp-table-builder-pro-frontend.css?ver=1.3.3" type="text/css" media="all"/>
+<link rel="stylesheet" id="wp-table-builder-procommon-css" href="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/plugins/wp-table-builder-pro/inc/common/css/wp-table-builder-pro.css?ver=1.3.3" type="text/css" media="all"/>
+<link rel="stylesheet" id="magplus-fonts-css" href="https://fonts.googleapis.com/css?family=Roboto%3A400%2C500%2C700&amp;subset=latin%2Clatin-ext&amp;ver=1.0" type="text/css" media="all"/>
+<link rel="stylesheet" id="ytv-playlist-css" href="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/themes/magplus/css/ytv.css?ver=1.0" type="text/css" media="all"/>
+<link rel="stylesheet" id="bootstrap-theme-css" href="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/themes/magplus/css/bootstrap.min.css?ver=1.0" type="text/css" media="all"/>
+<link rel="stylesheet" id="magplus-main-style-css" href="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/themes/magplus/css/style.css?ver=1.0" type="text/css" media="all"/>
+<style id="magplus-main-style-inline-css" type="text/css">
+#head 
+{        
+background: #13c34b;
+color: #FFF;
+padding: 10px 0px 10px 2px;
+Position: center;
+height:auto;
+}
+#note
+{
+background :#EFEFEF !important;
+color: #000;
+padding: 10px;
+height:auto;
+line-height: 1.5em;
+font-size: 0.9em;
+}
+#box {
+     background-color: none;
+     padding:10px;
+    border: 2px solid #9e9b9b;
+font-family:inherit;
+font size:12px;
+    margin: auto;
+}
+.ghost-button-border-color {
+  display: inline-block;
+  width: auto;
+  padding: 8px;
+  color: blue;
+  border: 2px solid #fff;
+  text-align: center;
+  outline: none;
+  text-decoration: none;
+  transition: border-color 0.3s ease-out,
+              color 0.3s ease-out;
+}
+.ghost-button-border-color:hover,
+.ghost-button-border-color:active {
+  color: #f6068d;
+  border-color: #f6068d;
+  transition: border-color 0.4s ease-in,
+              color 0.4s ease-in;
+}
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+tbody th {
+background-color: #524e4e;
+height:22px;
+font-size:1em;
+color:#FFFFFF;
+text-align: left;
+}
+
+tbody td {
+background: #ffffff;
+border: 1px solid #524e4e;
+font-size:15px;
+text-align: left;
+}
+tbody tr:nth-child(2n) td, tbody tr.even td {  
+    background: none repeat scroll 0 0 #f2f2f2;  
+}
+.post-text ul
+{
+list-style: disc inside none;
+}
+
+.ghost-button-rc {
+  display: inline-block;
+  width: 200px;
+  padding: 8px;
+  color: #fff;
+  border: 1px solid #000;
+  border-radius: 10px;
+  text-align: center;
+  outline: none;
+  text-decoration: none;
+}
+.ghost-button-rc:hover,
+.ghost-button-rc:active {
+  background-color: #fff;
+  color: #000;
+}
+
+#yellownote
+{
+background :#f6f39c !important;
+color: #000;
+padding: 10px;
+height:auto;
+}
+#box1 {
+  width: 300px;
+  height: 100px;
+  padding: 50px;
+  border: 3px solid green;
+  box-sizing: border-box;
+}
+
+#menu-footer li {
+    padding: 5px 0px !important;
+    margin: 0px !important;
+}
+
+#menu-footer li a{
+    font-size: 13px;
+    font-family: 'Roboto';
+    color: #fff;
+opacity: 0.4;
+}
+
+.tt-footer-copy {
+    font-size: 13px !important;
+}
+.data{
+	background-color: #f5f5f5;
+	padding:15px 15px;
+	border-left:5px solid #ff1744;
+}
+.data h4{
+	text-align: left;
+	font-size:22px;
+}
+.line1
+{
+    height: auto;
+    width: 100%;
+    padding: 20px 20px;
+    border-radius: 10px;
+    min-height: 55px;
+    margin: auto 0px;
+    text-align: left;
+   }
+   .lineclr
+   {
+        border: 3px solid blue;
+   }
+    .lineclr1
+   {
+        border: 3px solid brown;
+   }
+    .lineclr2
+   {
+        border: 3px solid green;
+   }
+    .lineclr3
+   {
+        border: 3px solid #ff1493;
+   }
+    .lineclr4
+   {
+        border: 3px solid #B735EE;
+   }
+   .lineclr5
+   {
+        border: 3px solid #00ccff;    
+   }
+   .lineclr6
+   {
+       border: 3px solid  #ff2301;  
+   }
+   .lineclr7
+   {
+       border: 3px solid  #ff0089;  
+   }
+   }.tt-header-type-5 .logo, .tt-header .logo {max-width:autopx;height:autopx;line-height:autopx;}.tt-mslide-cat,.tt-slide-2-cat,.tt-mblock-cat {display:none !important;}.tt-mslide-author,.tt-mblock-label > span {display:none !important;}.tt-mslide-date {display:none !important;}.tt-mslide-views {display:none !important;}body.archive .tt-post-views {display:none !important;}.cmn-mobile-switch {display:none;}@media (max-width:767px) {.tt-shortcode-2 {display:none;}.tt-iframe.smallVid {display:none !important;}}
+</style>
+<link rel="stylesheet" id="heateor_sss_frontend_css-css" href="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/plugins/sassy-social-share/public/css/sassy-social-share-public.css?ver=3.3.10" type="text/css" media="all"/>
+<link rel="stylesheet" id="heateor_sss_sharing_default_svg-css" href="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/plugins/sassy-social-share/admin/css/sassy-social-share-svg.css?ver=3.3.10" type="text/css" media="all"/>
+<script type="text/javascript" src="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-includes/js/jquery/jquery.js?ver=1.12.4-wp"></script>
+<script type="text/javascript" src="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var WptbFrontendData = {"stylePass":{"stylesheets":{"wp-table-builder-css":"https:\/\/www.trulygeeky.com\/wp-content\/plugins\/wp-table-builder\/inc\/frontend\/css\/wp-table-builder-frontend.css?version=1.3.3","wp-table-builder-procommon-css":"https:\/\/www.trulygeeky.com\/wp-content\/plugins\/wp-table-builder-pro\/inc\/common\/css\/wp-table-builder-pro.css?version=1.3.3"}}};
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/plugins/wp-table-builder/inc/frontend/js/wp-table-builder-frontend.js?ver=1.3.3"></script>
+<script type="text/javascript" src="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/plugins/wp-table-builder-pro/inc/frontend/js/wptb-pro.js?ver=1.3.3"></script>
+<link rel="https://api.w.org/" href="https://www.trulygeeky.com/wp-json/"/>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://www.trulygeeky.com/xmlrpc.php?rsd"/>
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-includes/wlwmanifest.xml"/> 
+<meta name="generator" content="WordPress 5.4.8"/>
+<link rel="shortlink" href="https://www.trulygeeky.com/?p=3450"/>
+<link rel="alternate" type="application/json+oembed" href="https://www.trulygeeky.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.trulygeeky.com%2Fspeacial-rakhi-gifts-for-your-brother%2F"/>
+<link rel="alternate" type="text/xml+oembed" href="https://www.trulygeeky.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.trulygeeky.com%2Fspeacial-rakhi-gifts-for-your-brother%2F&amp;format=xml"/>
+<meta name="framework" content="Redux 4.1.23"/><script type="application/ld+json"></script>    <meta property="og:image" content="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2019/06/Raksha-Bhandhan-Gift-Ideas-394x218.png"/>
+    <meta name="twitter:image:src" content="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2019/06/Raksha-Bhandhan-Gift-Ideas-394x218.png"/>
+  <meta name="generator" content="Powered by WPBakery Page Builder - drag and drop page builder for WordPress."/>
+<!--[if lte IE 9]><link rel="stylesheet" type="text/css" href="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/plugins/js_composer/assets/css/vc_lte_ie9.min.css" media="screen"><![endif]--><meta name="ca_title" content="Top 9 Rakhi Gifts To Say “Thanks For Being The Best Brother”"/><meta name="ca_image" content="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2019/06/Raksha-Bhandhan-Gift-Ideas-150x150.png"/><!-- Ezoic Ad Testing Code-->
+
+<!-- Ezoic Ad Testing Code-->                        
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-149859471-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-149859471-1');
+</script>
+<!-- Pinterest Tag -->
+<script>
+!function(e){if(!window.pintrk){window.pintrk = function () {
+window.pintrk.queue.push(Array.prototype.slice.call(arguments))};var
+  n=window.pintrk;n.queue=[],n.version="3.0";var
+  t=document.createElement("script");t.async=!0,t.src=e;var
+  r=document.getElementsByTagName("script")[0];
+  r.parentNode.insertBefore(t,r)}}("https://s.pinimg.com/ct/core.js");
+pintrk('load', '2613522439423', {em: '<user_email_address>'});
+pintrk('page');
+</script>
+<noscript>
+<img height="1" width="1" style="display:none;" alt=""
+  src="https://ct.pinterest.com/v3/?event=init&tid=2613522439423&pd[em]=<hashed_email_address>&noscript=1" />
+</noscript>
+<!-- end Pinterest Tag --><link rel="icon" href="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2018/04/cropped-favicon-1-32x32.png" sizes="32x32"/>
+<link rel="icon" href="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2018/04/cropped-favicon-1-192x192.png" sizes="192x192"/>
+<link rel="apple-touch-icon" href="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2018/04/cropped-favicon-1-180x180.png"/>
+<meta name="msapplication-TileImage" content="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2018/04/cropped-favicon-1-270x270.png"/>
+		<style type="text/css" id="wp-custom-css">
+			.aligncenter,
+div.aligncenter {
+    display: block;
+    margin: 5px auto 5px auto;
+}
+
+a img.aligncenter {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}		</style>
+		<style id="magplus_theme_options-dynamic-css" title="dynamic-css" class="redux-options-output">.text-logo{font-display:swap;}.tt-heading-title{font-display:swap;}.tt-header .top-line, .tt-header.color-2 .top-line{background:#000000;}.tt-header .top-menu a, .tt-header .top-social a, .tt-header.color-2 .top-menu a, .tt-header.color-2 .top-social a{color:#ffffff;}.tt-header .top-menu a:hover, .tt-header .top-social a:hover, .tt-header.color-2 .top-menu a:hover, .tt-header.color-2 .top-social a:hover{color:#ffffff;}.tt-header-type-7 .toggle-block, .tt-header-type-4 .toggle-block, .tt-header-type-3 .toggle-block, .tt-header .toggle-block, .tt-header-type-5 .top-inner{background:#000000;}.tt-header .main-nav > ul > li > a, .tt-header-type-4 .tt-s-popup-btn, .tt-s-popup-btn, .tt-header .cmn-mobile-switch span, .tt-header .cmn-mobile-switch::before, .tt-header .cmn-mobile-switch::after{color:#ffffff;}.tt-header .main-nav > ul > li.active > a, .tt-header .main-nav > ul > li:hover > a, .tt-s-popup-btn:hover, .tt-header .cmn-mobile-switch:hover:before, .tt-header .cmn-mobile-switch:hover:after, .tt-header .cmn-mobile-switch:hover span{color:#ffb53d;}.tt-header-style-link .main-nav > ul > li > a:after, .tt-header-type-5 .main-nav > ul > li > a:after{background:#000000;}.tt-header .main-nav > ul > li:not(.mega) > ul > li > a{color:#000000;}.tt-header .main-nav > ul > li:not(.mega) > ul > li > a:hover{color:#ffb53d;}.tt-header .main-nav > ul > li:not(.mega) > ul > li > a:hover, .mega.type-2 ul.tt-mega-wrapper li>ul a:hover, .tt-mega-list a:hover, .mega.type-2 ul.tt-mega-wrapper li>ul a:hover{background:#1e0801;}.tt-header .cmn-mobile-switch span, .tt-header .cmn-mobile-switch::before, .tt-header .cmn-mobile-switch::after{background:#000000;}.tt-header .cmn-mobile-switch:hover span, .tt-header .cmn-mobile-switch:hover::before, .tt-header .cmn-mobile-switch:hover::after{background:#000000;}.tt-s-popup-btn{color:#ffffff;}.footer_widget .tt-title-block.type-2 .tt-title-text, .footer_widget .tt-newsletter-title, .tt-title-block-2, .tt-title-block.dark .tt-title-text{color:#ffffff;}.tt-post.dark .tt-post-title, .footer_widget .tt-post-title, .footer_widget .tt-post .tt-post-label, .footer_widget .tt-post.dark .tt-post-cat, .footer_widget.widget_tag_cloud .tagcloud a{color:#ffffff;}#loading-text,
+      .simple-text h1,
+      .c-h1,.simple-text h2,
+      .c-h2,.simple-text h3,.c-h3,.simple-text h4,.c-h4,.simple-text h5,.c-h5,.simple-text h6,
+      .c-h6,.simple-text.font-poppins,.c-btn.type-1,.c-btn.type-2,.c-btn.type-3,.c-input,
+      .tt-mobile-nav > ul > li > a,.tt-mobile-nav > ul > li > ul > li > a,
+      .tt-header .main-nav > ul > li:not(.mega) > ul > li > a,.tt-mega-list a,.tt-s-popup-title,
+      .tt-title-text,.tt-title-block-2,
+      .comment-reply-title,.tt-tab-wrapper.type-1 .tt-nav-tab-item,
+      .tt-f-list a,.tt-footer-copy,.tt-pagination a,.tt-blog-user-content,.tt-author-title,.tt-blog-nav-label,
+      .tt-blog-nav-title,.tt-comment-label,.tt-search input[type="text"],.tt-share-title,.tt-mblock-label, .page-numbers a,.page-numbers span, .footer_widget.widget_nav_menu li a, .tt-h1-title, .tt-h4-title, .tt-h2-title, .shortcode-4 .tt-title-slider a, .footer_widget .tt-title-block.type-2 .tt-title-text, .footer_widget .tt-newsletter-title.c-h4 small{font-display:swap;}.tt-header .main-nav>ul>li>a{font-display:swap;}.tt-header .main-nav > ul > li:not(.mega) > ul > li > a, .tt-mega-list a, .mega.type-2 ul.tt-mega-wrapper li>ul a, .tt-header .main-nav>ul>li:not(.mega)>ul>li>ul>li>a{font-display:swap;}body, .tt-title-ul, .simple-text.title-droid h1,
+      .simple-text.title-droid h2,
+      .simple-text.title-droid h3,
+      .simple-text.title-droid h4,
+      .simple-text.title-droid h5,
+      .simple-text.title-droid h6,
+      .tt-tab-wrapper.tt-blog-tab .tt-nav-tab .tt-nav-tab-item,
+      .tt-header .main-nav,
+      .tt-header .top-menu a,
+      .tt-post-bottom,
+      .tt-post-label,
+      .tt-s-popup-field input[type="text"],
+      .tt-slide-2-title span,input,
+      textarea,.tt-post-cat, .tt-slider-custom-marg .c-btn.type-3,.tt-mslide-label,
+      select, .tt-post-breaking-news .tt-breaking-title, .sidebar-item.widget_recent_posts_entries .tt-post.dark .tt-post-cat,.shortcode-4 .simple-text, .woocommerce-result-count{font-family:Georgia, serif;font-weight:400;font-style:normal;font-display:swap;}</style><noscript><style type="text/css"> .wpb_animate_when_almost_visible { opacity: 1; }</style></noscript>  <style>.ezoic-ad.box-2105 { display:block !important;float:none;line-height:0px;margin-bottom:2px !important;margin-left:0px !important;margin-right:0px !important;margin-top:2px !important;min-height:90px;min-width:728px;padding:0;text-align:center !important; }
+.ezoic-ad.box-3104 { display:block !important;float:none;line-height:0px;margin-bottom:2px !important;margin-left:0px !important;margin-right:0px !important;margin-top:2px !important;min-height:250px;min-width:300px;padding:0;text-align:center !important; }
+.ezoic-ad.box-4100 { display:inline-block;float:none !important;line-height:0px;margin-bottom:2px !important;margin-left:0px !important;margin-right:0px !important;margin-top:2px !important;min-height:250px;min-width:300px;padding:0; }
+.ezoic-ad.banner-1102 { display:inline-block;float:none !important;line-height:0px;margin-bottom:2px !important;margin-left:0px !important;margin-right:0px !important;margin-top:2px !important;min-height:400px;min-width:580px;padding:0; }
+.ezoic-ad.medrectangle-1109 { display:block !important;float:none;line-height:0px;margin-bottom:2px !important;margin-left:0px !important;margin-right:0px !important;margin-top:2px !important;min-height:250px;min-width:300px;padding:0;text-align:center !important; }
+.ezoic-ad.box-1103 { display:inline-block;float:none;line-height:0px;margin-bottom:2px !important;margin-left:0px !important;margin-right:0px !important;margin-top:2px !important;min-height:250px;min-width:300px;padding:0; }
+.ezoic-ad.large-billboard-2111 { display:inline-block;float:none;line-height:0px;margin-bottom:2px !important;margin-left:0px !important;margin-right:0px !important;margin-top:2px !important;min-height:250px;min-width:300px;padding:0; }
+.ezoic-ad{display:inline-block;border:0px;}.ezoic-ad>div>iframe{margin:0px!important;padding:0px!important;}
+.adtester-container-127,.adtester-container-112,.adtester-container-101,.adtester-container-107,.adtester-container-121,.adtester-container-114,.adtester-container-125,.adtester-container-117,.adtester-container-110,.adtester-container-122,.adtester-container-116,.adtester-container-120,.adtester-container-128,.adtester-container-124,.adtester-container-108,.adtester-container-123,.adtester-container-119,.adtester-container-115,.adtester-container-118,.adtester-container-126,.adtester-container-106{display:none!important}
+.ezoic-floating-bottom { display: none!important; }</style><script type="text/javascript">var ezouid = "1";</script><base href="https://www.trulygeeky.com/speacial-rakhi-gifts-for-your-brother/"><script type='text/javascript'>
+var ezoTemplate = 'pub_site';
+if(typeof ezouid == 'undefined')
+{
+    var ezouid = 'none';
+}
+var ezoFormfactor = '1';
+var ezo_elements_to_check = Array();
+</script>
+
+<!-- START EZHEAD -->
+<script data-ezscrex="false" type='text/javascript'>
+var soc_app_id = '0';
+var did = 9268;
+var ezdomain = 'trulygeeky.com';
+var ezoicSearchable = 0;
+</script>
+<!--{jquery}-->
+<!-- END EZHEAD -->
+
+<script data-ezscrex='false' data-pagespeed-no-defer data-cfasync='false'>
+function create_ezolpl(pvID, rv) {
+    var d = new Date();
+    d.setTime(d.getTime() + (365*24*60*60*1000));
+    var expires = "expires="+d.toUTCString();
+    __ez.ck.setByCat("ezux_lpl_9268=" + new Date().getTime() + "|" + pvID + "|" + rv + "; " + expires, 3);
+}
+function attach_ezolpl(pvID, rv) {
+    if (document.readyState === "complete") {
+        create_ezolpl(pvID, rv);
+    }
+    if(window.attachEvent) {
+        window.attachEvent("onload", create_ezolpl, pvID, rv);
+    } else {
+        if(window.onload) {
+            var curronload = window.onload;
+            var newonload = function(evt) {
+                curronload(evt);
+                create_ezolpl(pvID, rv);
+            };
+            window.onload = newonload;
+        } else {
+            window.onload = create_ezolpl.bind(null, pvID, rv);
+        }
+    }
+}
+
+__ez.queue.addFunc("attach_ezolpl", "attach_ezolpl", ["983e678b-5945-46a2-66cf-ecbed677d985", "false"], false, ['/detroitchicago/boise.js'], true, false, false, false);
+</script>
+<script type="text/javascript">var _audins_dom="trulygeeky_com",_audins_did=9268;__ez.queue.addFile('/detroitchicago/cmbv2.js', '/detroitchicago/cmbv2.js?gcb=195-10&cb=04-1y02-5y06-12y07-1y0b-5y0d-14y13-3y17-4y1f-3y32-23y51-1&cmbcb=20&sj=x04x02x06x07x0bx0dx13x17x1fx32x51&abt=WebpackBabelScripts', true, [], true, false, true, false);</script>
+<script type="text/javascript" defer>__ez.queue.addFile('/detroitchicago/cmbdv2.js', '/detroitchicago/cmbdv2.js?gcb=195-10&cb=03-5y0c-5y18-4y33-23&cmbcb=20&sj=x03x0cx18x33&abt=WebpackBabelScripts', true, ['/detroitchicago/cmbv2.js'], true, false, true, false);</script></head>
+  <body class="post-template-default single single-post postid-3450 single-format-standard wp-embed-responsive  full-page header-style1 tt-top-header-disable tt-disable-sticky wpb-js-composer js-comp-ver-5.4.7 vc_responsive">
+
+
+  <div id="wrapper">
+
+        <div class="tt-mobile-block">
+        <div class="tt-mobile-close"></div>
+            <a href="https://www.trulygeeky.com/" class="logo httpswwwtrulygeekycomwp-contentthemesmagplusimgheaderlogo_2png"><img src="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2018/04/favicon-amp-32.png" alt="TrulyGeeky"/></a>
+            <nav class="tt-mobile-nav">
+          <ul id="side-header-nav" class="side-menu"><li id="menu-item-104" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-104"><a href="https://www.trulygeeky.com/">Home</a></li>
+<li id="menu-item-102" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-102"><a href="https://www.trulygeeky.com/category/automobiles/">Automobiles</a></li>
+<li id="menu-item-98" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-98"><a href="https://www.trulygeeky.com/category/beauty-fashion/">Beauty &amp; Fashion</a></li>
+<li id="menu-item-99" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-99"><a href="https://www.trulygeeky.com/category/family-relationship/">Family &amp; Relationship</a>
+<ul class="sub-menu">
+	<li id="menu-item-100" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-100"><a href="https://www.trulygeeky.com/category/family-relationship/quotes/">Quotes</a></li>
+	<li id="menu-item-1144" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1144"><a href="https://www.trulygeeky.com/category/family-relationship/gift-ideas/">Gift Ideas</a></li>
+</ul>
+</li>
+<li id="menu-item-582" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-582"><a href="https://www.trulygeeky.com/category/health/">Health</a></li>
+<li id="menu-item-101" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-101"><a href="https://www.trulygeeky.com/category/pets/">Pets</a></li>
+<li id="menu-item-103" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-103"><a href="https://www.trulygeeky.com/category/technology/">Tech</a></li>
+<li id="menu-item-581" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-581"><a href="https://www.trulygeeky.com/category/travel/">Travel</a></li>
+</ul>        </nav>
+    </div>
+    <div class="tt-mobile-overlay"></div>
+        <div class="tt-s-popup">
+      <div class="tt-s-popup-overlay"></div>
+      <div class="tt-s-popup-content">
+        <div class="tt-s-popup-layer"></div>
+        <div class="tt-s-popup-container">
+          <form action="https://www.trulygeeky.com/" method="get" class="tt-s-popup-form">
+            <div class="tt-s-popup-field">
+              <input type="text" id="s" name="s" value="" placeholder="Type to search" class="input" required=""/>
+              <div class="tt-s-popup-devider"></div>
+              <h3 class="tt-s-popup-title">Type to search</h3>     
+            </div>
+            <a href="#" class="tt-s-popup-close"></a>
+          </form> 
+        </div>
+      </div>
+    </div>
+        <div class="tt-video-popup">
+      <div class="tt-video-popup-overlay"></div>
+      <div class="tt-video-popup-content">
+        <div class="tt-video-popup-layer"></div>
+        <div class="tt-video-popup-container">
+          <div class="tt-video-popup-align">
+            <div class="embed-responsive embed-responsive-16by9">
+              <iframe class="embed-responsive-item" src="about:blank"></iframe>
+            </div>
+          </div>
+          <div class="tt-video-popup-close"></div>
+        </div>
+      </div>
+    </div> 
+
+    <div class="tt-thumb-popup">
+      <div class="tt-thumb-popup-overlay"></div>
+      <div class="tt-thumb-popup-content">
+        <div class="tt-thumb-popup-layer"></div>
+        <div class="tt-thumb-popup-container">
+          <div class="tt-thumb-popup-align">
+            <img class="tt-thumb-popup-img img-responsive" src="about:blank" alt=""/>
+          </div>
+          <div class="tt-thumb-popup-close"></div>
+        </div>
+      </div>
+    </div>  
+  
+  <div id="content-wrapper">
+  
+<!-- HEADER -->
+<header class="tt-header header-style1 tt-header-style-link full-page">
+  <div class="tt-header-wrapper">
+    <div class="top-inner clearfix"><span id="ezoic-pub-ad-placeholder-105" class="ezoic-adpicker-ad"></span><span class="ezoic-ad box-2 box-2105 adtester-container adtester-container-105" data-ez-name="trulygeeky_com-box-2"><span id="div-gpt-ad-trulygeeky_com-box-2-0" ezaw="728" ezah="90" style="position:relative;z-index:0;display:inline-block;padding:0;min-height:90px;min-width:728px;" class="ezoic-ad"><script data-ezscrex="false" data-cfasync="false" type="text/javascript" style="display:none;">if(typeof __ez_fad_position != 'undefined'){__ez_fad_position('div-gpt-ad-trulygeeky_com-box-2-0')};</script></span></span>
+      <div class="container">
+        
+    <a href="https://www.trulygeeky.com/" class="logo tt-logo-1x"><img src="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2018/04/TG-Logo.png" alt="TrulyGeeky" width="auto" height="auto"/></a>
+            
+    <a href="https://www.trulygeeky.com/" class="logo tt-logo-2x"><img src="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2018/04/TG-Logo-@2x.png" alt="TrulyGeeky" width="auto" height="auto" style="max-height:autopx; height:auto;"/></a>
+                    <div class="cmn-toggle-switch"><span></span></div>
+        <div class="cmn-mobile-switch"><span></span></div>
+        <a class="tt-s-popup-btn"><i class="fa fa-search" aria-hidden="true"></i></a>
+      </div>
+    </div>
+
+
+    <div class="toggle-block">
+      <div class="toggle-block-container">
+        <nav class="main-nav clearfix">
+          <ul id="nav" class="menu"><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-104"><a href="https://www.trulygeeky.com/">Home</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-102"><a href="https://www.trulygeeky.com/category/automobiles/">Automobiles</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-98"><a href="https://www.trulygeeky.com/category/beauty-fashion/">Beauty &amp; Fashion</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-99 parent"><a href="https://www.trulygeeky.com/category/family-relationship/">Family &amp; Relationship<i class="menu-toggle fa fa-angle-down"></i></a>
+<ul class="drop-menu ">
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-100"><a href="https://www.trulygeeky.com/category/family-relationship/quotes/">Quotes</a></li>	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1144"><a href="https://www.trulygeeky.com/category/family-relationship/gift-ideas/">Gift Ideas</a></li></ul></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-582"><a href="https://www.trulygeeky.com/category/health/">Health</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-101"><a href="https://www.trulygeeky.com/category/pets/">Pets</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-103"><a href="https://www.trulygeeky.com/category/technology/">Tech</a></li><li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-581"><a href="https://www.trulygeeky.com/category/travel/">Travel</a></li></ul>        </nav>
+
+
+        <div class="nav-more">
+          <div id="ezwrap_adsense_responsive_full_0"></div>        </div>
+
+
+        
+
+      </div>
+    </div>
+  </div>
+</header>
+  
+
+<div class="container">
+    <div class="empty-space marg-lg-b60 marg-sm-b40 marg-xs-b30"></div>
+  
+
+      <div class="row">
+    <div class="col-md-8">
+
+ <!-- dual sidebar-->
+
+                      <article class="post-3450 post type-post status-publish format-standard has-post-thumbnail hentry category-entertainment">
+
+                    <div class="empty-space marg-lg-b30"></div>
+
+          <div class="tt-blog-category post-single">
+                              <a class="c-btn type-3 color-3" href="https://www.trulygeeky.com/category/entertainment/">Entertainment</a>
+                         </div>
+
+
+          <div class="empty-space marg-lg-b10"></div>
+          <h1 class="c-h1">Top 9 Rakhi Gifts To Say “Thanks For Being The Best Brother”<span id="ezoic-pub-ad-placeholder-104" class="ezoic-adpicker-ad"></span><span class="ezoic-ad box-3 box-3104 adtester-container adtester-container-104" data-ez-name="trulygeeky_com-box-3"><span id="div-gpt-ad-trulygeeky_com-box-3-0" ezaw="300" ezah="250" style="position:relative;z-index:0;display:inline-block;padding:0;min-height:250px;min-width:300px;" class="ezoic-ad"><script data-ezscrex="false" data-cfasync="false" type="text/javascript" style="display:none;">if(typeof __ez_fad_position != 'undefined'){__ez_fad_position('div-gpt-ad-trulygeeky_com-box-3-0')};</script></span></span></h1>
+          <div class="empty-space marg-lg-b5"></div>
+
+          <!-- TT-BLOG-USER -->
+          
+          <div class="tt-blog-user clearfix">
+
+            <a class="tt-blog-user-img" href="https://www.trulygeeky.com/author/divamdrs18/">
+              <img alt="" src="https://secure.gravatar.com/avatar/db69a8485b03871d766cab80dc044c6c?s=40&amp;d=wavatar&amp;r=g" srcset="https://secure.gravatar.com/avatar/db69a8485b03871d766cab80dc044c6c?s=80&amp;d=wavatar&amp;r=g 2x" class="tt-comment-form-ava avatar-40 photo" height="40" width="40"/>            </a>
+            <div class="tt-blog-user-content">
+              <span class="tt-post-author-single"><a href="https://www.trulygeeky.com/author/divamdrs18/"></a></span>
+              <span class="tt-post-date-single">June 13, 2019</span>
+            </div>
+          </div>                            
+          
+
+          <div class="empty-space marg-lg-b10"></div>
+
+          
+          
+          <div class="empty-space marg-lg-b20 marg-sm-b20"></div>
+
+          <div class="simple-text size-4 tt-content title-droid margin-big">
+            <div class="heateorSssClear"></div><div class="heateor_sss_sharing_container heateor_sss_horizontal_sharing" heateor-sss-data-href="https://www.trulygeeky.com/speacial-rakhi-gifts-for-your-brother/"><div class="heateor_sss_sharing_title" style="font-weight:bold">Spread the love</div><ul class="heateor_sss_sharing_ul"><li class="heateorSssSharingRound"><i style="width:35px;height:35px;" alt="Facebook" title="Facebook" class="heateorSssSharing heateorSssFacebookBackground" onclick="heateorSssPopup(&#34;https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.trulygeeky.com%2Fspeacial-rakhi-gifts-for-your-brother%2F&#34;)"><ss style="display:block;" class="heateorSssSharingSvg heateorSssFacebookSvg"></ss></i></li><li class="heateorSssSharingRound"><i style="width:35px;height:35px;" alt="Twitter" title="Twitter" class="heateorSssSharing heateorSssTwitterBackground" onclick="heateorSssPopup(&#34;http://twitter.com/intent/tweet?text=Top%209%20Rakhi%20Gifts%20To%20Say%20%E2%80%9CThanks%20For%20Being%20The%20Best%20Brother%E2%80%9D&amp;url=https%3A%2F%2Fwww.trulygeeky.com%2Fspeacial-rakhi-gifts-for-your-brother%2F&#34;)"><ss style="display:block;" class="heateorSssSharingSvg heateorSssTwitterSvg"></ss></i></li><li class="heateorSssSharingRound"><i style="width:35px;height:35px;" alt="Pinterest" title="Pinterest" class="heateorSssSharing heateorSssPinterestBackground" onclick="javascript:void( (function() {var e=document.createElement(&#39;script&#39; );e.setAttribute(&#39;type&#39;,&#39;text/javascript&#39; );e.setAttribute(&#39;charset&#39;,&#39;UTF-8&#39; );e.setAttribute(&#39;src&#39;,&#39;//assets.pinterest.com/js/pinmarklet.js?r=&#39;+Math.random()*99999999);document.body.appendChild(e)})());"><ss style="display:block;" class="heateorSssSharingSvg heateorSssPinterestSvg"></ss></i></li><li class="heateorSssSharingRound"><i style="width:35px;height:35px;" alt="Whatsapp" title="Whatsapp" class="heateorSssSharing heateorSssWhatsappBackground"><a href="https://web.whatsapp.com/send?text=Top%209%20Rakhi%20Gifts%20To%20Say%20%E2%80%9CThanks%20For%20Being%20The%20Best%20Brother%E2%80%9D%20https%3A%2F%2Fwww.trulygeeky.com%2Fspeacial-rakhi-gifts-for-your-brother%2F" rel="nofollow noopener" target="_blank"><ss style="display:block" class="heateorSssSharingSvg heateorSssWhatsappSvg"></ss></a></i></li><li class="heateorSssSharingRound"><i style="width:35px;height:35px;" alt="Instagram" title="Instagram" class="heateorSssSharing heateorSssInstagramBackground"><a href="https://www.instagram.com/" rel="nofollow noopener" target="_blank"><ss style="display:block;" class="heateorSssSharingSvg heateorSssInstagramSvg"></ss></a></i></li></ul><div class="heateorSssClear"></div></div><div class="heateorSssClear"></div>
+<!-- Quick Adsense WordPress Plugin: http://quickadsense.com/ -->
+<div class="20ad5b7ef9db913d8a557c21b8b5b42f" data-index="1" style="float: none; margin:10px 0 10px 0; text-align:center;">
+<!-- Ezoic - first paragraph under - under_first_paragraph -->
+<span id="ezoic-pub-ad-placeholder-101"></span>
+<!-- End Ezoic - first paragraph under - under_first_paragraph -->
+</div>
+<p>Raksha Bandhan is the ideal time to put a thankful note towards the man who has the guts to protect you from all kind of appalling conditions of life. Yes! We are talking about a brother. As Raksha Bandhan is creeping up again, now the time is here to say thanks to your brother for everything he has done to make your life worthy, fun-filled as well as amazing. Here we have listed the fantastic rakhi gift ideas which will surely make your brother feel special and love<span style="color: #000000;">d.</span> Read this article thoroughly and let your brother know what he really means to you with some unique gifts.</p>
+<p>To the outside world, he is a brother, but for a sister, he is not more than a wacky guy who is born to annoy and tease her. But, when life is unfair with you, then your brother is the only person who will always stand by your side as a steady rock, keeping his all worries aside and neglecting all the dramatic issues of life. No matter how much you fight for the silly things or beat each other using hands &amp; pulling each other’s hair out, the love remains the same between brother and sister. So lets’ celebrate this Raksha Bandhan with best rakhi gifts for your brother.</p>
+<!-- Quick Adsense WordPress Plugin: http://quickadsense.com/ -->
+<div class="20ad5b7ef9db913d8a557c21b8b5b42f" data-index="2" style="float: none; margin:10px 0 10px 0; text-align:center;">
+<!-- Ezoic - middle content - mid_content -->
+<span id="ezoic-pub-ad-placeholder-100"></span><span class="ezoic-ad box-4 box-4100 adtester-container adtester-container-100" data-ez-name="trulygeeky_com-box-4"><span id="div-gpt-ad-trulygeeky_com-box-4-0" ezaw="300" ezah="250" style="position:relative;z-index:0;display:inline-block;padding:0;min-height:250px;min-width:300px;" class="ezoic-ad"><script data-ezscrex="false" data-cfasync="false" type="text/javascript" style="display:none;">if(typeof __ez_fad_position != 'undefined'){__ez_fad_position('div-gpt-ad-trulygeeky_com-box-4-0')};</script></span></span>
+<!-- End Ezoic - middle content - mid_content -->
+</div>
+
+<div class="data">
+<h4><span style="color: #ff0000;"><strong>You May Also Like </strong></span></h4><div class="lwptoc lwptoc-autoWidth lwptoc-baseItems lwptoc-light lwptoc-notInherit" data-smooth-scroll="1" data-smooth-scroll-offset="24"><div class="lwptoc_i">    <div class="lwptoc_header">
+        <b class="lwptoc_title">Contents</b>                    <span class="lwptoc_toggle">
+                <a href="#" class="lwptoc_toggle_label" data-label="show">hide</a>
+            </span>
+            </div>
+<div class="lwptoc_items lwptoc_items-visible">
+    <div class="lwptoc_itemWrap"><div class="lwptoc_item">    <a href="#9_Unique_Special_Rakhi_Gifts_For_Your_Brother">
+                    <span class="lwptoc_item_number">1</span>
+                <span class="lwptoc_item_label">9 Unique, Special Rakhi Gifts For Your Brother</span>
+    </a>
+    <div class="lwptoc_itemWrap"><div class="lwptoc_item">    <a href="#1Sweetness_Of_Cake">
+                    <span class="lwptoc_item_number">1.1</span>
+                <span class="lwptoc_item_label">1.Sweetness Of Cake</span>
+    </a>
+    </div><div class="lwptoc_item">    <a href="#2_A_Choco_Truffle_Box">
+                    <span class="lwptoc_item_number">1.2</span>
+                <span class="lwptoc_item_label">2. A Choco Truffle Box</span>
+    </a>
+    </div><div class="lwptoc_item">    <a href="#3A_Bouquet_Of_Flowers">
+                    <span class="lwptoc_item_number">1.3</span>
+                <span class="lwptoc_item_label">3.A Bouquet Of Flowers</span>
+    </a>
+    </div><div class="lwptoc_item">    <a href="#4Rakhi_Gift_Cards">
+                    <span class="lwptoc_item_number">1.4</span>
+                <span class="lwptoc_item_label">4.Rakhi Gift Cards</span>
+    </a>
+    </div><div class="lwptoc_item">    <a href="#5Best-Bro_Ever_Coffee_Mug">
+                    <span class="lwptoc_item_number">1.5</span>
+                <span class="lwptoc_item_label">5.“Best-Bro Ever” Coffee Mug</span>
+    </a>
+    </div><div class="lwptoc_item">    <a href="#6Photo_Frames">
+                    <span class="lwptoc_item_number">1.6</span>
+                <span class="lwptoc_item_label">6.Photo Frames</span>
+    </a>
+    </div><div class="lwptoc_item">    <a href="#7Personalized_Cushion">
+                    <span class="lwptoc_item_number">1.7</span>
+                <span class="lwptoc_item_label">7.Personalized Cushion</span>
+    </a>
+    </div><div class="lwptoc_item">    <a href="#8Rakhi_Greeting_Cards">
+                    <span class="lwptoc_item_number">1.8</span>
+                <span class="lwptoc_item_label">8.Rakhi Greeting Cards</span>
+    </a>
+    </div><div class="lwptoc_item">    <a href="#9Rakhi_Hamper">
+                    <span class="lwptoc_item_number">1.9</span>
+                <span class="lwptoc_item_label">9.Rakhi Hamper</span>
+    </a>
+    </div></div></div></div></div>
+</div></div>
+<p><a href="https://www.trulygeeky.com/best-unique-wedding-gifts-for-bride/" target="_blank" rel="noopener noreferrer">12 Unique, Beautiful Off The Registry Wedding Gifts For Bride</a></p>
+<p><a class="tt-post-title c-h5" href="https://www.trulygeeky.com/creative-unusual-wedding-gifts-for-couples/" target="_blank" rel="noopener noreferrer">Top 10 Unusual Wedding Gifts For Couples</a></p>
+</div>
+<h2><span id="9_Unique_Special_Rakhi_Gifts_For_Your_Brother"><span style="color: #0000ff;"><strong>9 Unique, Special Rakhi Gifts For Your Brother</strong></span></span></h2>
+<h3><span id="1Sweetness_Of_Cake"><span style="color: #0000ff;"><strong>1.Sweetness Of Cake</strong></span></span></h3>
+<p><img class="aligncenter size-full wp-image-3452" src="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2019/06/rakhi-gifts-for-brother-1.jpg" alt="rakhi gift ideas" width="385" height="385" srcset="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2019/06/rakhi-gifts-for-brother-1.jpg 385w, https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2019/06/rakhi-gifts-for-brother-1-150x150.jpg 150w, https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2019/06/rakhi-gifts-for-brother-1-300x300.jpg 300w, https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2019/06/rakhi-gifts-for-brother-1-80x80.jpg 80w" sizes="(max-width: 385px) 100vw, 385px" title="rakhi gifts for brother 1"/></p>
+<p>Sometimes, an expensive gift can’t evoke, what the sweetness of a cake can do. If you are looking for the beautiful way which can pour your heart out for your loving brother, then bring a delicious cake of the flavor he loves. With the sweet taste and gorgeous appearance of the cake, you can easily put a thankful note and tell him that he is the best brother in the universe.</p>
+<h3><span id="2_A_Choco_Truffle_Box"><span style="color: #0000ff;">2. <strong>A Choco Truffle Box</strong></span></span></h3>
+<p><img class="aligncenter size-full wp-image-3453" src="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2019/06/best-gift-for-brother-2.jpg" alt="presents for brothers" width="385" height="385" srcset="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2019/06/best-gift-for-brother-2.jpg 385w, https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2019/06/best-gift-for-brother-2-150x150.jpg 150w, https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2019/06/best-gift-for-brother-2-300x300.jpg 300w, https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2019/06/best-gift-for-brother-2-80x80.jpg 80w" sizes="(max-width: 385px) 100vw, 385px" title="best gift for brother 2"/></p>
+<!-- Quick Adsense WordPress Plugin: http://quickadsense.com/ -->
+<div class="20ad5b7ef9db913d8a557c21b8b5b42f" data-index="3" style="float: none; margin:10px 0 10px 0; text-align:center;">
+<!-- Ezoic - after para 8 - long_content -->
+<span id="ezoic-pub-ad-placeholder-102"></span><span class="ezoic-ad banner-1 banner-1102 adtester-container adtester-container-102" data-ez-name="trulygeeky_com-banner-1"><span id="div-gpt-ad-trulygeeky_com-banner-1-0" ezaw="580" ezah="400" style="position:relative;z-index:0;display:inline-block;padding:0;width:100%;max-width:1200px;margin-left:auto !important;margin-right:auto !important;min-height:400px;min-width:580px;" class="ezoic-ad"><script data-ezscrex="false" data-cfasync="false" type="text/javascript" style="display:none;">if(typeof __ez_fad_position != 'undefined'){__ez_fad_position('div-gpt-ad-trulygeeky_com-banner-1-0')};</script></span></span>
+<!-- End Ezoic - after para 8 - long_content -->
+</div>
+
+<p>When we talk about sweetness, then chocolates are also considered as the best rakhi gift option after the heart-melting cakes. Chocolates are the one &amp; only delight, ruling the million hearts with its fab taste. Gifting a box full of choco truffles made of dark chocolate, embellished with the dry fruits, giving a little crunch to the choco balls, is the right option to speak the language of your sweet feelings.</p>
+<h3><span id="3A_Bouquet_Of_Flowers"><span style="color: #0000ff;"><strong>3.A Bouquet Of Flowers</strong></span></span></h3>
+<p><img class="aligncenter size-full wp-image-3454" src="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2019/06/presents-for-brothers-3.jpg" alt="rakhi gifts" width="400" height="295" srcset="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2019/06/presents-for-brothers-3.jpg 400w, https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2019/06/presents-for-brothers-3-300x221.jpg 300w, https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2019/06/presents-for-brothers-3-110x81.jpg 110w" sizes="(max-width: 400px) 100vw, 400px" title="presents for brothers 3"/></p>
+<p>Sometimes finding the right word for a situation is not easy. According to us, there is no word which can actually give wings to your emotions, but a pretty flower can. Yes! The adorable features of flowers are enough to make it happen. When your brother receives a nicely arranged bouquet of <a href="https://www.trulygeeky.com/most-beautiful-flowers/" target="_blank" rel="noopener noreferrer">beautiful flowers</a>, then his happiness will be on the peak and won’t be able to control his excitement at all. You can also send unique rakhis online along with this floral gift to increase the charm of your present.</p>
+<h3><span id="4Rakhi_Gift_Cards"><span style="color: #0000ff;"><strong>4.Rakhi Gift Cards</strong></span></span></h3>
+<p><img class="aligncenter size-full wp-image-3455" src="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2019/06/rakhi-gifts-for-brother-4.jpg" alt="unique gifts for brother" width="385" height="385" srcset="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2019/06/rakhi-gifts-for-brother-4.jpg 385w, https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2019/06/rakhi-gifts-for-brother-4-150x150.jpg 150w, https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2019/06/rakhi-gifts-for-brother-4-300x300.jpg 300w, https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2019/06/rakhi-gifts-for-brother-4-80x80.jpg 80w" sizes="(max-width: 385px) 100vw, 385px" title="rakhi gifts for brother 4"/>With the upcoming occasion of Raksha Bandhan, most of the websites offer numero of Rakhi gift cards (especially the websites like Amazon) which will be perfect for gifting your brother on the special occasion of Raksha Bandhan. With a gift card, he will be able to shop for clothes, gadgets, grooming kits and many more at great prices and get the cash back as well.</p>
+<h3><span id="5Best-Bro_Ever_Coffee_Mug"><span style="color: #0000ff;"><strong>5.“Best-Bro Ever” Coffee Mug</strong></span></span></h3>
+<p><img class="aligncenter size-full wp-image-3456" src="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2019/06/unique-gifts-for-brother-5.jpg" alt="gifts for your brother" width="345" height="345" srcset="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2019/06/unique-gifts-for-brother-5.jpg 345w, https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2019/06/unique-gifts-for-brother-5-150x150.jpg 150w, https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2019/06/unique-gifts-for-brother-5-300x300.jpg 300w, https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2019/06/unique-gifts-for-brother-5-80x80.jpg 80w" sizes="(max-width: 345px) 100vw, 345px" title="unique gifts for brother 5"/></p>
+<p>Yes! A brother cares like a father, franks like a friend, fights like siblings; he’s an amalgamation of everything a person’s feelings which a sister needs. This Raksha Bandhan, let your brother know his real importance in your life with a superb mug featuring a special message “Best-Bro Ever.” You can also get a simple mug customized with the desired message. Yes! With today’s modern technology, you can get it done in a couple of hours. It’s one of the best unique gifts for brother.</p>
+<h3><span id="6Photo_Frames"><span style="color: #0000ff;"><strong> 6.</strong><strong>Photo Frames</strong></span></span></h3>
+<p><img class="aligncenter size-full wp-image-3457" src="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2019/06/unique-gifts-for-brother-6.png" alt="rakhi gifts" width="400" height="344" srcset="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2019/06/unique-gifts-for-brother-6.png 400w, https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2019/06/unique-gifts-for-brother-6-300x258.png 300w" sizes="(max-width: 400px) 100vw, 400px" title="unique gifts for brother 6"/>Raksha Bandhan is the right time to revive the old memories once again. Bring a beautiful photo frame carrying a message which is artfully written on the frame and put a lovely pic of your brother or any pic displaying the lovely moments you have spent with each other. The beautiful design of the frame, as well as the image showing the sweet bond with your brother, is the fantastic gift option to amaze him on this special occasion.</p>
+<h3><span id="7Personalized_Cushion"><span style="color: #0000ff;"><strong>7.Personalized Cushion</strong></span></span></h3>
+<p><img class="aligncenter size-full wp-image-3458" src="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2019/06/unique-gifts-for-brother-7.png" alt="unique gifts for brother" width="400" height="359" srcset="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2019/06/unique-gifts-for-brother-7.png 400w, https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2019/06/unique-gifts-for-brother-7-300x269.png 300w" sizes="(max-width: 400px) 100vw, 400px" title="unique gifts for brother 7"/></p>
+<p>Gone are the old days when cushions are only considered as the comfy stuff to relax. Today, cushions are one of the best gift options which one can keep for a long time as a lovely piece of memory. You can easily get a simple cushion customized with the image, quote or whatever you wish to get printed on it. If you want to present something different from your brother, then a personalized cushion is the right choice.</p>
+<h3><span id="8Rakhi_Greeting_Cards"><span style="color: #0000ff;"><strong>8.Rakhi Greeting Cards</strong></span></span></h3>
+<p><img class="aligncenter size-full wp-image-3459" src="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2019/06/rakhi-gifts-for-your-brother-8.png" alt="rakhi greeting card" width="400" height="300" srcset="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2019/06/rakhi-gifts-for-your-brother-8.png 400w, https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2019/06/rakhi-gifts-for-your-brother-8-300x225.png 300w" sizes="(max-width: 400px) 100vw, 400px" title="rakhi gifts for your brother 8"/></p>
+<p>If your brother loves simple or not-so-fancy rakhi gifts, then you can go with the simple idea of gifting a greeting card. This may be a simple idea but works magic every time whenever it is gifted. You can easily convey the warm wishes of the occasion as well as express your gratitude for everything he has done with a beautiful card holding an exclusive Rakhi thought on brother &amp; sister. Sometimes, a couple of words can do wonders in your relationships. You can also pair this card with a bunch of flowers to increase the beauty of gifting.</p>
+<h3><span id="9Rakhi_Hamper"><span style="color: #0000ff;"><strong>9.Rakhi Hamper</strong></span></span></h3>
+<p><img class="aligncenter size-full wp-image-3460" src="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2019/06/rakhi-gifts-9.png" alt="rakhi gift hamper" width="385" height="385" srcset="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2019/06/rakhi-gifts-9.png 385w, https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2019/06/rakhi-gifts-9-150x150.png 150w, https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2019/06/rakhi-gifts-9-300x300.png 300w, https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2019/06/rakhi-gifts-9-80x80.png 80w" sizes="(max-width: 385px) 100vw, 385px" title="rakhi gifts 9"/></p>
+<p>When you are totally confused about what to gift or not, then Rakhi hampers basically come to rescue you. Many online or offline gift shops offer exciting Rakhi hampers consisting of sweet delights as well as other complimentary gift items that are always ready to make anyone feel wow. You can also add a surprising twist to the day with the doorstep delivery of online gift hampers offered by most of the online portals. This way, you can easily surprise your brother and present him some moments to smile.</p>
+<p>The above-mentioned Rakhi gifts are fantastic in their own way and sure to make your brother feel special on receiving such a wonderful gesture from your side.</p>
+<div style="display: none;" class="kk-star-ratings kksr-valign-bottom kksr-align-right " data-id="3450" data-slug="">
+    <div class="kksr-stars">
+    <div class="kksr-stars-inactive">
+            <div class="kksr-star" data-star="1">
+            <div class="kksr-icon" style="width: 22px; height: 22px;"></div>
+        </div>
+            <div class="kksr-star" data-star="2">
+            <div class="kksr-icon" style="width: 22px; height: 22px;"></div>
+        </div>
+            <div class="kksr-star" data-star="3">
+            <div class="kksr-icon" style="width: 22px; height: 22px;"></div>
+        </div>
+            <div class="kksr-star" data-star="4">
+            <div class="kksr-icon" style="width: 22px; height: 22px;"></div>
+        </div>
+            <div class="kksr-star" data-star="5">
+            <div class="kksr-icon" style="width: 22px; height: 22px;"></div>
+        </div>
+    </div>
+    <div class="kksr-stars-active" style="width: 92.4px;">
+            <div class="kksr-star">
+            <div class="kksr-icon" style="width: 22px; height: 22px;"></div>
+        </div>
+            <div class="kksr-star">
+            <div class="kksr-icon" style="width: 22px; height: 22px;"></div>
+        </div>
+            <div class="kksr-star">
+            <div class="kksr-icon" style="width: 22px; height: 22px;"></div>
+        </div>
+            <div class="kksr-star">
+            <div class="kksr-icon" style="width: 22px; height: 22px;"></div>
+        </div>
+            <div class="kksr-star">
+            <div class="kksr-icon" style="width: 22px; height: 22px;"></div>
+        </div>
+    </div>
+</div>
+    <div class="kksr-legend">
+            <strong class="kksr-score">4.2</strong>
+        <span class="kksr-muted">/</span>
+        <strong>5</strong>
+        <span class="kksr-muted">(</span>
+        <strong class="kksr-count">5</strong>
+        <span class="kksr-muted">
+            votes        </span>
+        <span class="kksr-muted">)</span>
+    </div>
+</div>
+
+<div style="font-size: 0px; height: 0px; line-height: 0px; margin: 0; padding: 0; clear: both;"></div><div class="heateor_sss_sharing_container heateor_sss_vertical_sharing heateor_sss_bottom_sharing" style="width:44px;left: -10px;top: 100px;-webkit-box-shadow:none;box-shadow:none;" heateor-sss-data-href="https://www.trulygeeky.com/speacial-rakhi-gifts-for-your-brother/"></div><!-- AI CONTENT END 1 -->
+          </div>
+                            </article>
+        <div class="empty-space marg-lg-b30 marg-sm-b30"></div>
+              
+      <div class="code-block code-block-1" style="margin: 8px auto; text-align: center; display: block; clear: both;">
+<div id="amzn-assoc-ad-d3909a94-c48b-4bd1-9923-4f3625c1c780"></div></div>
+
+      <div class="empty-space marg-lg-b50 marg-sm-b30"></div>
+
+
+
+      
+
+      
+    <!-- TT-NAV -->
+    <div class="row">
+
+            <div class="col-sm-6">
+        <div class="tt-blog-nav left">
+          <div class="tt-blog-nav-label">Previous Article</div>
+          <a class="tt-blog-nav-title" href="https://www.trulygeeky.com/best-face-wash-for-acne/" rel="prev">10 Best Face Washes &amp; Cleansers For Acne Prone Skin</a> 
+        </div>
+        <div class="empty-space marg-xs-b20"></div>
+      </div>
+      
+            <div class="col-sm-6">
+        <div class="tt-blog-nav right">
+          <div class="tt-blog-nav-label">Next Article</div>
+          <a class="tt-blog-nav-title" href="https://www.trulygeeky.com/bumper-repair-replacement-cost/" rel="next">Complete Guide On The Bumper Repair/ Replacement Cost</a>                                    
+        </div>
+      </div>
+          </div>
+
+    <div class="empty-space marg-lg-b55 marg-sm-b50 marg-xs-b30"></div>
+  
+
+      
+
+      <div class="tt-devider"></div>
+      <div class="empty-space marg-lg-b55 marg-sm-b50 marg-xs-b30"></div>
+
+      
+      <span id="ezoic-pub-ad-placeholder-109" class="ezoic-adpicker-ad"></span><span class="ezoic-ad medrectangle-1 medrectangle-1109 adtester-container adtester-container-109" data-ez-name="trulygeeky_com-medrectangle-1"><span id="div-gpt-ad-trulygeeky_com-medrectangle-1-0" ezaw="970" ezah="250" style="position:relative;z-index:0;display:inline-block;padding:0;width:100%;max-width:1200px;margin-left:auto !important;margin-right:auto !important;min-height:250px;min-width:300px;" class="ezoic-ad"><script data-ezscrex="false" data-cfasync="false" type="text/javascript" style="display:none;">if(typeof __ez_fad_position != 'undefined'){__ez_fad_position('div-gpt-ad-trulygeeky_com-medrectangle-1-0')};</script></span><span style="width:970px;display:block;height:14px;margin:auto" class="reportline"><span style="text-align:center;font-size: smaller;float:left;line-height:normal;"><a href="https://www.ezoic.com/what-is-ezoic/" target="_blank" rel="noopener noreferrer nofollow" style="cursor:pointer"><img src="https://go.ezoic.net/utilcave_com/img/ezoic.png" alt="Ezoic" loading="lazy" style="height:12px !important; padding:2px !important; border:0px !important; cursor:pointer !important; width: 58px !important; margin:0 !important; box-sizing: content-box !important;"/></a></span><span class="ez-report-ad-button" name="?pageview_id=983e678b-5945-46a2-66cf-ecbed677d985&amp;ad_position_id=109&amp;impression_group_id=trulygeeky_com-medrectangle-1/2021-11-28/1074031335807313&amp;ad_size=970x250&amp;domain_id=9268&amp;url=https://www.trulygeeky.com/speacial-rakhi-gifts-for-your-brother/" style="cursor: pointer!important; font-size:12px !important;color: #a5a5a5 ;float:right;text-decoration:none !important;font-family:arial !important;line-height:normal;">report this ad</span></span></span></div>
+  <div class="col-md-4">
+  <div class="sidebar pleft75 sidebar-heading-style1 right-sidebar">
+    <div class="empty-space marg-sm-b60"></div>
+          <div id="custom_html-12" class="widget_text sidebar-item widget widget_custom_html"><div class="textwidget custom-html-widget"><!-- Ezoic - sidebar 1 - sidebar -->
+<span id="ezoic-pub-ad-placeholder-103"></span><span class="ezoic-ad box-1 box-1103 adtester-container adtester-container-103" data-ez-name="trulygeeky_com-box-1"><span id="div-gpt-ad-trulygeeky_com-box-1-0" ezaw="300" ezah="250" style="position:relative;z-index:0;display:inline-block;padding:0;min-height:250px;min-width:300px;" class="ezoic-ad"><script data-ezscrex="false" data-cfasync="false" type="text/javascript" style="display:none;">if(typeof __ez_fad_position != 'undefined'){__ez_fad_position('div-gpt-ad-trulygeeky_com-box-1-0')};</script></span><span style="width:300px;display:block;height:14px;margin:auto" class="reportline"><span style="text-align:center;font-size: smaller;float:left;line-height:normal;"><a href="https://www.ezoic.com/what-is-ezoic/" target="_blank" rel="noopener noreferrer nofollow" style="cursor:pointer"><img src="https://go.ezoic.net/utilcave_com/img/ezoic.png" alt="Ezoic" loading="lazy" style="height:12px !important; padding:2px !important; border:0px !important; cursor:pointer !important; width: 58px !important; margin:0 !important; box-sizing: content-box !important;"/></a></span><span class="ez-report-ad-button" name="?pageview_id=983e678b-5945-46a2-66cf-ecbed677d985&amp;ad_position_id=103&amp;impression_group_id=trulygeeky_com-box-1/2021-11-28/6009421243787347&amp;ad_size=300x250&amp;domain_id=9268&amp;url=https://www.trulygeeky.com/speacial-rakhi-gifts-for-your-brother/" style="cursor: pointer!important; font-size:12px !important;color: #a5a5a5 ;float:right;text-decoration:none !important;font-family:arial !important;line-height:normal;">report this ad</span></span></span>
+<!-- End Ezoic - sidebar 1 - sidebar --></div></div><div class="empty-space marg-lg-b30"></div><div id="two-column-post-4" class="sidebar-item widget widget_two_column_post_entries">      
+      <div class="tt-border-block">
+        <div class="tt-title-block type-2">
+            <h3 class="tt-title-text">Popular Posts</h3>
+        </div>
+        <div class="empty-space marg-lg-b15"></div>
+
+        <div class="row tt-post-two-col">
+
+                    <div class="tt-post tt-post-two-col-item type-3 col-sm-6 col-md-6 post-236 post type-post status-publish format-standard has-post-thumbnail hentry category-family-relationship">
+                    <a class="tt-post-img custom-hover" href="https://www.trulygeeky.com/cute-names-to-call-your-girlfriend/">
+      <img width="335" height="160" src="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2019/06/cute-nicknames-to-call-your-girlfriend-4-335x160.png" class="img-responsive wp-post-image" alt="cute names to call your girlfriend" srcset="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2019/06/cute-nicknames-to-call-your-girlfriend-4-335x160.png 335w, https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2019/06/cute-nicknames-to-call-your-girlfriend-4-820x394.png 820w" sizes="(max-width: 335px) 100vw, 335px" title="cute nicknames to call your girlfriend 4"/>    </a>
+              <div class="tt-post-info">
+              <a class="tt-post-title c-h5" href="https://www.trulygeeky.com/cute-names-to-call-your-girlfriend/"><small>300 Beautiful Cute Nicknames To Call Your Girlfriend</small></a>
+                    <div class="tt-post-label">
+              <span class="tt-post-author-name"><a href="https://www.trulygeeky.com/author/divamdrs18/">Lisa Williams</a></span>
+                    <span class="tt-post-date">January 6, 2020</span>
+          </div>
+              </div>
+            <div class="marg-lg-b30"></div>          </div>
+                    <div class="tt-post tt-post-two-col-item type-3 col-sm-6 col-md-6 post-1803 post type-post status-publish format-standard has-post-thumbnail hentry category-technology tag-best-pokemon-nicknames tag-change-trainer-nickname-in-pokemon-go tag-cool-pokemon-go-nicknames tag-cool-pokemon-nicknames tag-featured tag-good-pokemon-nicknames tag-need-help-with-pokemon-nicknames tag-nickname-unavailable tag-pokemon-go-trainer-nicknames tag-pokemon-nicknames">
+                    <a class="tt-post-img custom-hover" href="https://www.trulygeeky.com/cool-pokemon-go-nicknames/">
+      <img width="283" height="160" src="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2016/07/Pokemon-Go-Nicknames.jpg" class="img-responsive wp-post-image" alt="Pokemon Go Nicknames" srcset="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2016/07/Pokemon-Go-Nicknames.jpg 800w, https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2016/07/Pokemon-Go-Nicknames-300x170.jpg 300w, https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2016/07/Pokemon-Go-Nicknames-768x434.jpg 768w, https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2016/07/Pokemon-Go-Nicknames-510x288.jpg 510w, https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2016/07/Pokemon-Go-Nicknames-1280x720.jpg 1280w, https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2016/07/Pokemon-Go-Nicknames-283x160.jpg 283w, https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2016/07/Pokemon-Go-Nicknames-80x45.jpg 80w" sizes="(max-width: 283px) 100vw, 283px" title="Pokemon Go Nicknames"/>    </a>
+              <div class="tt-post-info">
+              <a class="tt-post-title c-h5" href="https://www.trulygeeky.com/cool-pokemon-go-nicknames/"><small>Top 50 Cool Pokémon Go Trainer Nicknames – Ideas &amp; Guide</small></a>
+                    <div class="tt-post-label">
+              <span class="tt-post-author-name"><a href="https://www.trulygeeky.com/author/divamdrs18/">Lisa Williams</a></span>
+                    <span class="tt-post-date">July 24, 2016</span>
+          </div>
+              </div>
+            <div class="marg-lg-b30"></div>          </div>
+                    <div class="tt-post tt-post-two-col-item type-3 col-sm-6 col-md-6 post-1787 post type-post status-publish format-standard has-post-thumbnail hentry category-technology tag-badass-gamertags tag-cool-gamertags tag-xbox-gamertag-names tag-xbox-gamertags tag-xbox-live-gamertag">
+                    <a class="tt-post-img custom-hover" href="https://www.trulygeeky.com/good-cool-xbox-gamertags/">
+      <img width="284" height="160" src="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2016/07/cool-xbox-gamertags-1.jpg" class="img-responsive wp-post-image" alt="cool-xbox-gamertags" srcset="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2016/07/cool-xbox-gamertags-1.jpg 800w, https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2016/07/cool-xbox-gamertags-1-300x169.jpg 300w, https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2016/07/cool-xbox-gamertags-1-768x433.jpg 768w, https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2016/07/cool-xbox-gamertags-1-510x288.jpg 510w, https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2016/07/cool-xbox-gamertags-1-1280x720.jpg 1280w, https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2016/07/cool-xbox-gamertags-1-80x45.jpg 80w" sizes="(max-width: 284px) 100vw, 284px" title="cool xbox gamertags 1"/>    </a>
+              <div class="tt-post-info">
+              <a class="tt-post-title c-h5" href="https://www.trulygeeky.com/good-cool-xbox-gamertags/"><small>Top 100 Cool Xbox Gamertags For Xbox Live</small></a>
+                    <div class="tt-post-label">
+              <span class="tt-post-author-name"><a href="https://www.trulygeeky.com/author/divamdrs18/">Lisa Williams</a></span>
+                    <span class="tt-post-date">December 7, 2017</span>
+          </div>
+              </div>
+            <div class="marg-lg-b30"></div>          </div>
+                    <div class="tt-post tt-post-two-col-item type-3 col-sm-6 col-md-6 post-2018 post type-post status-publish format-standard has-post-thumbnail hentry category-trending tag-authenticate-error-fix-pokemon-go tag-solve-pokemon-go-authentic-error-problem tag-unable-to-authenticate-pokemon-go">
+                    <a class="tt-post-img custom-hover" href="https://www.trulygeeky.com/unable-to-authenticate-pokemon-go/">
+      <img width="284" height="160" src="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2016/08/Unable-To-Authenticate-Pokemon-Go.jpg" class="img-responsive wp-post-image" alt="Unable To Authenticate Pokemon Go" srcset="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2016/08/Unable-To-Authenticate-Pokemon-Go.jpg 800w, https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2016/08/Unable-To-Authenticate-Pokemon-Go-300x169.jpg 300w, https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2016/08/Unable-To-Authenticate-Pokemon-Go-768x432.jpg 768w, https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2016/08/Unable-To-Authenticate-Pokemon-Go-510x287.jpg 510w, https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2016/08/Unable-To-Authenticate-Pokemon-Go-1280x720.jpg 1280w, https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2016/08/Unable-To-Authenticate-Pokemon-Go-284x160.jpg 284w, https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2016/08/Unable-To-Authenticate-Pokemon-Go-80x45.jpg 80w" sizes="(max-width: 284px) 100vw, 284px" title="Unable To Authenticate Pokemon Go"/>    </a>
+              <div class="tt-post-info">
+              <a class="tt-post-title c-h5" href="https://www.trulygeeky.com/unable-to-authenticate-pokemon-go/"><small>[ Solved ] Unable To Authenticate Pokémon Go</small></a>
+                    <div class="tt-post-label">
+              <span class="tt-post-author-name"><a href="https://www.trulygeeky.com/author/divamdrs18/">Lisa Williams</a></span>
+                    <span class="tt-post-date">July 31, 2018</span>
+          </div>
+              </div>
+            <div class="marg-lg-b20"></div>          </div>
+                    <div class="tt-post tt-post-two-col-item type-3 col-sm-6 col-md-6 post-626 post type-post status-publish format-standard has-post-thumbnail hentry category-beauty-fashion tag-ear-piercing-cost tag-fashion">
+                    <a class="tt-post-img custom-hover" href="https://www.trulygeeky.com/how-much-does-it-cost-to-get-your-ears-pierced/">
+      <img width="214" height="160" src="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2015/12/how-much-does-it-cost-to-get-your-ears-pierced.jpg" class="img-responsive wp-post-image" alt="How Much Does It Cost To Get Your Ears Pierced" srcset="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2015/12/how-much-does-it-cost-to-get-your-ears-pierced.jpg 670w, https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2015/12/how-much-does-it-cost-to-get-your-ears-pierced-300x224.jpg 300w, https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2015/12/how-much-does-it-cost-to-get-your-ears-pierced-510x381.jpg 510w, https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2015/12/how-much-does-it-cost-to-get-your-ears-pierced-100x75.jpg 100w, https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2015/12/how-much-does-it-cost-to-get-your-ears-pierced-214x160.jpg 214w, https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2015/12/how-much-does-it-cost-to-get-your-ears-pierced-80x60.jpg 80w" sizes="(max-width: 214px) 100vw, 214px" title="how much does it cost to get your ears pierced"/>    </a>
+              <div class="tt-post-info">
+              <a class="tt-post-title c-h5" href="https://www.trulygeeky.com/how-much-does-it-cost-to-get-your-ears-pierced/"><small>How Much Does It Cost To Get Your Ears Pierced ? – All 14 Types</small></a>
+                    <div class="tt-post-label">
+              <span class="tt-post-author-name"><a href="https://www.trulygeeky.com/author/divamdrs18/">Lisa Williams</a></span>
+                    <span class="tt-post-date">December 21, 2015</span>
+          </div>
+              </div>
+            <div class="marg-lg-b20"></div>          </div>
+          
+        </div>
+
+
+
+
+      </div>
+
+      </div><div class="empty-space marg-lg-b30"></div><div id="custom_html-11" class="widget_text sidebar-item widget widget_custom_html"><div class="textwidget custom-html-widget"><!-- Ezoic - sidebar_middle 111 - sidebar_middle -->
+<span id="ezoic-pub-ad-placeholder-111"></span><span class="ezoic-ad large-billboard-2 large-billboard-2111 adtester-container adtester-container-111" data-ez-name="trulygeeky_com-large-billboard-2"><span id="div-gpt-ad-trulygeeky_com-large-billboard-2-0" ezaw="336" ezah="280" style="position:relative;z-index:0;display:inline-block;padding:0;width:100%;max-width:1200px;margin-left:auto !important;margin-right:auto !important;min-height:250px;min-width:300px;" class="ezoic-ad"><script data-ezscrex="false" data-cfasync="false" type="text/javascript" style="display:none;">if(typeof __ez_fad_position != 'undefined'){__ez_fad_position('div-gpt-ad-trulygeeky_com-large-billboard-2-0')};</script></span><span style="width:336px;display:block;height:14px;margin:auto" class="reportline"><span style="text-align:center;font-size: smaller;float:left;line-height:normal;"><a href="https://www.ezoic.com/what-is-ezoic/" target="_blank" rel="noopener noreferrer nofollow" style="cursor:pointer"><img src="https://go.ezoic.net/utilcave_com/img/ezoic.png" alt="Ezoic" loading="lazy" style="height:12px !important; padding:2px !important; border:0px !important; cursor:pointer !important; width: 58px !important; margin:0 !important; box-sizing: content-box !important;"/></a></span><span class="ez-report-ad-button" name="?pageview_id=983e678b-5945-46a2-66cf-ecbed677d985&amp;ad_position_id=111&amp;impression_group_id=trulygeeky_com-large-billboard-2/2021-11-28/6775638983830757&amp;ad_size=336x280&amp;domain_id=9268&amp;url=https://www.trulygeeky.com/speacial-rakhi-gifts-for-your-brother/" style="cursor: pointer!important; font-size:12px !important;color: #a5a5a5 ;float:right;text-decoration:none !important;font-family:arial !important;line-height:normal;">report this ad</span></span></span>
+<!-- End Ezoic - sidebar_middle 111 - sidebar_middle --></div></div><div class="empty-space marg-lg-b30"></div><div id="social-follow-2" class="sidebar-item widget widget_social_follow_entries"><div class="tt-title-block"><h5 class="c-h5 widget-title tt-title-text">Get In Touch With Us</h5></div><div class="empty-space marg-lg-b20"></div>
+                <a class="c-btn type-1 size-3 style-2 color-3" target="_blank" href="https://www.facebook.com/trulygeeky">
+            <span><i class="fa fa-facebook-official" aria-hidden="true"></i>join followers</span>
+        </a>
+        <div class="empty-space marg-lg-b10"></div>
+                        <a class="c-btn type-1 size-3 style-2 color-4" target="_blank" href="https://twitter.com/trulygeeky">
+          <span><i class="fa fa-twitter" aria-hidden="true"></i>join followers</span>
+        </a>
+        
+                <div class="empty-space marg-lg-b10"></div>
+        <a class="c-btn type-1 size-3 style-2 color-5" target="_blank" href="https://www.instagram.com/trulygeeky/">
+            <span><i class="fa fa-instagram" aria-hidden="true"></i>join followers</span>
+        </a>
+
+        
+        </div><div class="empty-space marg-lg-b30"></div>      </div>
+</div>
+    
+ </div><!-- .row -->
+  
+  <div class="empty-space marg-lg-b80 marg-sm-b50 marg-xs-b30"></div>
+                
+</div>
+
+
+<div class="tt-footer">
+  <div class="container">
+    <div class="row">
+            <div class="col-md-3 col-sm-6 col-1">
+                  <div id="text-15" class="widget tt-footer-list footer_widget widget_text"><h5 class="tt-title-block-2">An Overview</h5><div class="empty-space marg-lg-b20"></div>			<div class="textwidget"><p>At TrulyGeeky, we talk about the stuff that matters.Whether you are a travel freak or enjoy at home homeoholic, we can keep you engaged.Thanks for your visit!.We are happy to have you around here.</p>
+</div>
+		</div>                <div class="empty-space marg-xs-b30"></div>
+      </div>
+          <div class="col-md-3 col-sm-6 col-2">
+                  <div id="nav_menu-7" class="widget tt-footer-list footer_widget widget_nav_menu"><h5 class="tt-title-block-2">Quick Links</h5><div class="empty-space marg-lg-b20"></div><div class="menu-footer-container"><ul id="menu-footer" class="menu"><li id="menu-item-2960" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2960"><a href="https://www.trulygeeky.com/write-for-us/">Advertise With US</a></li>
+<li id="menu-item-584" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-584"><a href="https://www.trulygeeky.com/terms-of-service/">Terms Of Service</a></li>
+<li id="menu-item-586" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-privacy-policy menu-item-586"><a href="https://www.trulygeeky.com/privacy-policy/">Privacy Policy</a></li>
+<li id="menu-item-3871" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3871"><a href="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/sitemap_index.xml">Sitemap</a></li>
+<li id="menu-item-587" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-587"><a href="https://www.trulygeeky.com/contact-us/">Contact Us</a></li>
+</ul></div></div>                <div class="empty-space marg-xs-b30"></div>
+      </div>
+          <div class="col-md-3 col-sm-6 col-3">
+                  <div id="text-14" class="widget tt-footer-list footer_widget widget_text"><h5 class="tt-title-block-2">Top 100</h5><div class="empty-space marg-lg-b20"></div>			<div class="textwidget"><div class="ftrlnks">
+<ul id="menu-footer" class="menu">
+<li><a href="https://www.trulygeeky.com/cool-unique-female-dog-names/">Cute Girl Dog Names</a></li>
+<li><a href="https://www.trulygeeky.com/unusual-cool-unique-male-dog-names/">Cute Boy Dog Names</a></li>
+<li><a href="https://www.trulygeeky.com/cute-names-to-call-your-girlfriend/">Cute Nicknames For Girlfriend</a></li>
+</ul>
+</div>
+</div>
+		</div>                <div class="empty-space marg-xs-b30"></div>
+      </div>
+          <div class="col-md-3 col-sm-6 col-4">
+                  <div id="search-3" class="widget tt-footer-list footer_widget widget_search"><h5 class="tt-title-block-2">Search an Item</h5><div class="empty-space marg-lg-b20"></div>
+<div class="tt-s-search">
+  <form action="https://www.trulygeeky.com/" method="get" class="search">
+    <input type="text" required="" id="s" name="s" placeholder="Search articles"/>
+    <div class="tt-s-search-submit">
+      <i class="fa fa-search" aria-hidden="true"></i>
+      <input type="submit" value=""/>
+    </div>
+  </form>
+</div>
+
+
+</div>                <div class="empty-space marg-xs-b30"></div>
+      </div>
+          <div class="col-md-12"><div class="empty-space marg-lg-b60 marg-sm-b50 marg-xs-b30"></div></div>
+    </div>
+  </div>
+  <div class="tt-footer-copy">
+    <div class="container">
+      @ 2020 Truly Geeky - All Rights Reserved.    </div>
+  </div>
+</div> 
+
+</div>
+</div>
+<link rel="stylesheet" id="lwptoc-main-css" href="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/plugins/luckywp-table-of-contents/front/assets/main.min.css?ver=2.1.4" type="text/css" media="all"/>
+<script type="text/javascript">
+/* <![CDATA[ */
+var kk_star_ratings = {"action":"kk-star-ratings","endpoint":"https:\/\/www.trulygeeky.com\/wp-admin\/admin-ajax.php","nonce":"8a92fd4e21"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/plugins/kk-star-ratings/public/js/kk-star-ratings.js?ver=4.1.3"></script>
+<script type="text/javascript" src="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-includes/js/comment-reply.min.js?ver=5.4.8"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var magplus_ajax = {"ajaxurl":"https:\/\/www.trulygeeky.com\/wp-admin\/admin-ajax.php","siteurl":"https:\/\/www.trulygeeky.com\/wp-content\/themes\/magplus"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/themes/magplus/js/global.js?ver=1.0"></script>
+<script type="text/javascript" src="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/themes/magplus/js/match.height.min.js?ver=1.0"></script>
+<script type="text/javascript" src="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/themes/magplus/js/jquery.appear.min.js?ver=1.0"></script>
+<script type="text/javascript" src="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/themes/magplus/js/parallax.min.js?ver=1.0"></script>
+<script type="text/javascript" src="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-includes/js/imagesloaded.min.js?ver=3.2.0"></script>
+<script type="text/javascript">
+function heateorSssLoadEvent(e) {var t=window.onload;if (typeof window.onload!="function") {window.onload=e}else{window.onload=function() {t();e()}}};	var heateorSssSharingAjaxUrl = 'https://www.trulygeeky.com/wp-admin/admin-ajax.php', heateorSssCloseIconPath = 'https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/plugins/sassy-social-share/public/../images/close.png', heateorSssPluginIconPath = 'https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/plugins/sassy-social-share/public/../images/logo.png', heateorSssHorizontalSharingCountEnable = 0, heateorSssVerticalSharingCountEnable = 0, heateorSssSharingOffset = -10; var heateorSssMobileStickySharingEnabled = 1;var heateorSssCopyLinkMessage = "Link copied.";var heateorSssUrlCountFetched = [], heateorSssSharesText = 'Shares', heateorSssShareText = 'Share';function heateorSssPopup(e) {window.open(e,"popUpWindow","height=400,width=600,left=400,top=100,resizable,scrollbars,toolbar=0,personalbar=0,menubar=no,location=no,directories=no,status")};var heateorSssWhatsappShareAPI = "web";
+</script>
+<script type="text/javascript" src="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/plugins/sassy-social-share/public/js/sassy-social-share-public.js?ver=3.3.10"></script>
+<script type="text/javascript" src="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-includes/js/wp-embed.min.js?ver=5.4.8"></script>
+<script type="text/javascript" src="https://273560-849236-2-raikfcquaxqncofqfm.stackpathdns.com/wp-content/plugins/luckywp-table-of-contents/front/assets/main.min.js?ver=2.1.4"></script>
+
+
+<!--[selectrongo:done]--><script type='text/javascript'>var __ez_rp_opts={activeLayoutTester:!1,isOn:"true",showImages:"",theme:"light",locations:"",title:"Related Articles on this Site",showSocial:"false",fbURL:"http://www.facebook.com/sharer.php?u=https%3A%2F%2Fwww.trulygeeky.com%2Fspeacial-rakhi-gifts-for-your-brother%2F",twitterURL:"https://twitter.com/share?url=https%3A%2F%2Fwww.trulygeeky.com%2Fspeacial-rakhi-gifts-for-your-brother%2F",gplusURL:"https://plus.google.com/share?url=https%3A%2F%2Fwww.trulygeeky.com%2Fspeacial-rakhi-gifts-for-your-brother%2F",contentURL:"https://www.trulygeeky.com/speacial-rakhi-gifts-for-your-brother/",swipe:"false"},__ez_rp_script=document.createElement("script");__ez_rp_script.setAttribute("async",""),__ez_rp_script.setAttribute("src","/utilcave_com/apps/js/recommended_pages.js?cb=7"),document.getElementsByTagName("head")[0].appendChild(__ez_rp_script),function(b){var b=b,c=b.document,d=b.screen;b.touchSwipeListener=function(f){var g={startX:0,endX:0},h={moveHandler:function(){},redirectHandler:function(){},endHandler:function(){},startHandler:function(){},scrollEndHandler:function(){},minLengthRatio:0.2},i=function(){return g.endX>g.startX?"prev":"next"},j=function(){var m=Math.ceil(d.width*f.minLengthRatio);return Math.abs(g.endX-g.startX)>m},l={scrollEnd:function(){var n="innerHeight"in b?b.innerHeight:c.documentElement.offsetHeight,o=c.body,p=c.documentElement,q=Math.max(o.scrollHeight,o.offsetHeight,p.clientHeight,p.scrollHeight,p.offsetHeight);windowBottom=n+b.pageYOffset,windowBottom>=q&&q>n+400&&f.scrollEndHandler()},touchStart:function(m){0<m.touches.length&&(g.startX=m.touches[0].pageX,f.startHandler(i()))},touchMove:function(m){0<m.touches.length&&(g.endX=m.touches[0].pageX,f.moveHandler(i(),j()))},touchEnd:function(m){var n=m.changedTouches||m.touches;0<n.length&&(g.endX=n[0].pageX,j()&&f.redirectHandler(i())),f.endHandler(i())}};return function(){for(var m in h)h.hasOwnProperty(m)&&(f[m]||(f[m]=h[m]))}(),c.addEventListener?{on:function(){c.addEventListener("touchstart",l.touchStart,!1),c.addEventListener("touchmove",l.touchMove,!1),c.addEventListener("touchend",l.touchEnd,!1),b.addEventListener("scroll",l.scrollEnd,!1)},off:function(){c.removeEventListener("touchstart",l.touchStart),c.removeEventListener("touchmove",l.touchMove),c.removeEventListener("touchend",l.touchEnd),b.removeEventListener("scroll",l.scrollEnd)}}:{on:function(){},off:function(){}}}}(window),function(b){var c=b.document,d=function(){var h,i,e={},f={prev:null,next:null},g={prev:null,next:null};return{init:function(){this.retrievePageSiblings();f.next&&(this.renderArrows(),this.syncUI())},syncUI:function(){var j=this;h=new b.touchSwipeListener({moveHandler:function(k,l){l?g[k]&&f[k]&&g[k].classList.add("visible"):g[k].classList.remove("visible")},scrollEndHandler:function(){},startHandler:function(){i&&clearTimeout(i),e.classList.add("visible")},endHandler:function(){g.next.classList.remove("visible"),g.prev.classList.remove("visible"),i=setTimeout(function(){e.classList.remove("visible")},1500)},redirectHandler:function(k){j[k]&&j[k]()}}),h.on()},retrievePageSiblings:function(){f.prev=c.querySelector("head > link[rel=prev]"),f.next=c.querySelector("head > link[rel=next]")},renderArrows:function(){var k=function(l){var m=c.createElement("span");m.className="icon-wrap "+l;var n=c.createElement("div"),o=c.createElement("a");return o.href="prev"===l?"javascript:window.history.go(-1);":f[l].href,o.className=l,o.appendChild(m),o.appendChild(n),o};g.next=k("next"),g.prev=k("prev"),e=function(l,m){var n=c.createElement("nav");return n.className="nav-multithumb",n.appendChild(m),n.appendChild(l),c.getElementsByTagName("body")[0].appendChild(n),n}(g.next,g.prev)},showLoadingScreen:function(){b.scrollTo(0,0);var j=c.createElement("div");j.className="spn-freezing-overlay",c.getElementsByTagName("body")[0].appendChild(j)},prev:function(){this.showLoadingScreen(),setTimeout(function(){b.location.href=b.history.go(-1)},1e3)},next:function(){f.next&&(this.showLoadingScreen(),setTimeout(function(){b.location.href=f.next.href},1e3))}}}();b.swipePageNav=d}(window);</script>
+<script>function __ez_fad_ezpbinit(){var s = document.createElement( 'script' );
+	s.setAttribute( 'src', '//go.ezodn.com/hb/dall.js?b=adyoulike,amx,appnexus,gumgum,ix,medianet,oftmedia,onetag,pulsepoint,sharethrough,unruly&cb=195-10-31' );
+	document.body.appendChild( s );}var epbjs=epbjs||{};epbjs.que=epbjs.que||[];epbjs.bidderTimeout=2000;epbjs.useAdj=true;epbjs.SS={"adyoulike":11314,"amx":11290,"appnexus":10087,"gumgum":10079,"ix":10082,"medianet":11307,"oftmedia":10081,"onetag":11291,"pulsepoint":11301,"sharethrough":11309,"unruly":10097};epbjs.bidders=['adyoulike,amx,appnexus,gumgum,ix,medianet,oftmedia,onetag,pulsepoint,sharethrough,unruly'];epbjs.que.push(function(){epbjs.aliasBidder('appnexus', 'oftmedia');});epbjs.bidderSettings={'oftmedia': { bidCpmAdjustment: function(bidCpm) { var adj1 = bidCpm * 0.850000; var adj2 = adj1 * 1.000000; return adj2; }},'ix': { bidCpmAdjustment: function(bidCpm) { var adj1 = bidCpm * 1.000000; var adj2 = adj1 * 1.000000; return adj2; }},'gumgum': { bidCpmAdjustment: function(bidCpm) { var adj1 = bidCpm * 1.000000; var adj2 = adj1 * 1.000000; return adj2; }},'appnexus': { bidCpmAdjustment: function(bidCpm) { var adj1 = bidCpm * 1.000000; var adj2 = adj1 * 1.000000; return adj2; }},'pulsepoint': { bidCpmAdjustment: function(bidCpm) { var adj1 = bidCpm * 1.000000; var adj2 = adj1 * 1.000000; return adj2; }},'medianet': { bidCpmAdjustment: function(bidCpm) { var adj1 = bidCpm * 1.000000; var adj2 = adj1 * 1.000000; return adj2; }},'sharethrough': { bidCpmAdjustment: function(bidCpm) { var adj1 = bidCpm * 1.000000; var adj2 = adj1 * 1.000000; return adj2; }},'adyoulike': { bidCpmAdjustment: function(bidCpm) { var adj1 = bidCpm * 1.000000; var adj2 = adj1 * 1.000000; return adj2; }},'unruly': { bidCpmAdjustment: function(bidCpm) { var adj1 = bidCpm * 0.420000; var adj2 = adj1 * 1.000000; return adj2; }},'amx': { bidCpmAdjustment: function(bidCpm) { var adj1 = bidCpm * 1.000000; var adj2 = adj1 * 1.000000; return adj2; }},'onetag': { bidCpmAdjustment: function(bidCpm) { var adj1 = bidCpm * 1.000000; var adj2 = adj1 * 1.000000; return adj2; }},};epbjs.gadj=1.000000;var __enableAnalytics=false;
+var __s2sbidders=['onetag'];
+var __allBidders=['oftmedia','ix','gumgum','appnexus','pulsepoint','medianet','sharethrough','adyoulike','unruly','amx','onetag'];
+__ez.queue.addFile('/detroitchicago/houston.js', '/detroitchicago/houston.js?gcb=10&cb=16', false, [], true, false, true, false);__ez.queue.addFunc("epbjsRequestAdUnits", "epbjsRequestAdUnits", [[{code: 'div-gpt-ad-trulygeeky_com-box-3-0', mediaTypes: {banner: { sizes:[[300,250]] }}, bids: [{bidder: 'oftmedia', params:{ placementId: '19594014', video: {skippable: true, playback_method: ['auto_play_sound_off']}}},{bidder: 'ix', params: { siteId: '305138', size: [300,250], video: {} }},{bidder: 'gumgum', params:{ inSlot: '20833' }},{bidder: 'appnexus', params: { placementId: '20433641', video: {skippable: true, playback_method: ['auto_play_sound_off']}}},{bidder: 'pulsepoint', params: { cf: '300x250', cp: '562406', ct: '719185' }},{bidder: 'medianet', params: { cid: '8CUBCB617', crid: '188911743' }},{bidder: 'sharethrough', params: { pkey: 'ZuLKhEvL3Xpyu8vcJZvy4GGZ' }},{bidder: 'adyoulike', params: { placement: 'a7af8ef0d99a8689c3f488724b4de63b' }},{bidder: 'amx', params: { tagId: 'ZXpvaWMuY29t' }}] },{code: 'div-gpt-ad-trulygeeky_com-banner-1-0', mediaTypes: {banner: { sizes:[[580,400],[336,280],[300,250]] }}, bids: [{bidder: 'oftmedia', params:{ placementId: '19594054', video: {skippable: true, playback_method: ['auto_play_sound_off']}}},{bidder: 'ix', params: { siteId: '305144', size: [580,400], video: {} }},{bidder: 'gumgum', params:{ inSlot: '20845' }},{bidder: 'appnexus', params: { placementId: '20433641', video: {skippable: true, playback_method: ['auto_play_sound_off']}}},{bidder: 'pulsepoint', params: { cf: '336x280', cp: '562406', ct: '719186' }},{bidder: 'medianet', params: { crid: '188911743', cid: '8CUBCB617' }},{bidder: 'sharethrough', params: { pkey: 'Vqh9A2nu0ACUssgx5gyWaEde' }},{bidder: 'adyoulike', params: { placement: '0d4dbc563844d6cfb112e51010203ad9' }},{bidder: 'amx', params: { tagId: 'ZXpvaWMuY29t' }}] },{code: 'div-gpt-ad-trulygeeky_com-box-4-0', mediaTypes: {banner: { sizes:[[300,250]] }}, bids: [{bidder: 'oftmedia', params:{ placementId: '19594020', video: {skippable: true, playback_method: ['auto_play_sound_off']}}},{bidder: 'ix', params: { siteId: '305139', size: [300,250], video: {} }},{bidder: 'gumgum', params:{ inSlot: '20835' }},{bidder: 'appnexus', params: { placementId: '20433641', video: {skippable: true, playback_method: ['auto_play_sound_off']}}},{bidder: 'pulsepoint', params: { ct: '719185', cf: '300x250', cp: '562406' }},{bidder: 'medianet', params: { cid: '8CUBCB617', crid: '188911743' }},{bidder: 'sharethrough', params: { pkey: 'ZuLKhEvL3Xpyu8vcJZvy4GGZ' }},{bidder: 'adyoulike', params: { placement: 'a7af8ef0d99a8689c3f488724b4de63b' }},{bidder: 'amx', params: { tagId: 'ZXpvaWMuY29t' }}] },{code: 'div-gpt-ad-trulygeeky_com-large-billboard-2-0', mediaTypes: {banner: { sizes:[[336,280],[300,250]] }}, bids: [{bidder: 'oftmedia', params:{ placementId: '19594060', video: {skippable: true, playback_method: ['auto_play_sound_off']}}},{bidder: 'ix', params: { siteId: '305146', size: [336,280], video: {} }},{bidder: 'gumgum', params:{ inSlot: '20849' }},{bidder: 'appnexus', params: { placementId: '20433641', video: {skippable: true, playback_method: ['auto_play_sound_off']}}},{bidder: 'pulsepoint', params: { cf: '336x280', cp: '562406', ct: '719186' }},{bidder: 'medianet', params: { cid: '8CUBCB617', crid: '188911743' }},{bidder: 'sharethrough', params: { pkey: 'Vqh9A2nu0ACUssgx5gyWaEde' }},{bidder: 'adyoulike', params: { placement: '0d4dbc563844d6cfb112e51010203ad9' }},{bidder: 'amx', params: { tagId: 'ZXpvaWMuY29t' }}] },{code: 'div-gpt-ad-trulygeeky_com-box-1-0', mediaTypes: {banner: { sizes:[[300,250]] }}, bids: [{bidder: 'oftmedia', params:{ placementId: '19593629', video: {skippable: true, playback_method: ['auto_play_sound_off']}}},{bidder: 'ix', params: { siteId: '305136', size: [300,250], video: {} }},{bidder: 'gumgum', params:{ inSlot: '20829' }},{bidder: 'appnexus', params: { placementId: '20433641', video: {skippable: true, playback_method: ['auto_play_sound_off']}}},{bidder: 'pulsepoint', params: { cf: '300x250', cp: '562406', ct: '719185' }},{bidder: 'medianet', params: { cid: '8CUBCB617', crid: '188911743' }},{bidder: 'sharethrough', params: { pkey: 'ZuLKhEvL3Xpyu8vcJZvy4GGZ' }},{bidder: 'adyoulike', params: { placement: 'a7af8ef0d99a8689c3f488724b4de63b' }},{bidder: 'amx', params: { tagId: 'ZXpvaWMuY29t' }}] },{code: 'div-gpt-ad-trulygeeky_com-box-2-0', mediaTypes: {banner: { sizes:[[728,90]] }}, bids: [{bidder: 'oftmedia', params:{ placementId: '19594005', video: {skippable: true, playback_method: ['auto_play_sound_off']}}},{bidder: 'ix', params: { siteId: '305137', size: [728,90], video: {} }},{bidder: 'gumgum', params:{ inSlot: '20886' }},{bidder: 'appnexus', params: { placementId: '20433641', video: {skippable: true, playback_method: ['auto_play_sound_off']}}},{bidder: 'pulsepoint', params: { cf: '728x90', cp: '562406', ct: '719177' }},{bidder: 'medianet', params: { cid: '8CUBCB617', crid: '188911743' }},{bidder: 'sharethrough', params: { pkey: 'e1sI5HKO9lbvTm6UAa1WEpg9' }},{bidder: 'adyoulike', params: { placement: '1445fa30166d47821a0f97789148a105' }},{bidder: 'amx', params: { tagId: 'ZXpvaWMuY29t' }}] },{code: 'div-gpt-ad-trulygeeky_com-medrectangle-1-0', mediaTypes: {banner: { sizes:[[970,250],[970,90],[728,90]] }}, bids: [{bidder: 'oftmedia', params:{ placementId: '19594037', video: {skippable: true, playback_method: ['auto_play_sound_off']}}},{bidder: 'ix', params: { siteId: '305140', size: [970,250], video: {} }},{bidder: 'gumgum', params:{ inSlot: '20903' }},{bidder: 'appnexus', params: { placementId: '20433641', video: {skippable: true, playback_method: ['auto_play_sound_off']}}},{bidder: 'pulsepoint', params: { cf: '970x250', cp: '562406', ct: '719190' }},{bidder: 'medianet', params: { cid: '8CUBCB617', crid: '188911743' }},{bidder: 'sharethrough', params: { pkey: 'eg0dK1yCwNpqwa5WfpQTwHjJ' }},{bidder: 'adyoulike', params: { placement: '6db821f81df2bcace1c83d211558e128' }},{bidder: 'amx', params: { tagId: 'ZXpvaWMuY29t' }}] }]], false, ['/detroitchicago/houston.js'], true, true, true, true);</script>
+<script>var __ez_tkn_evnt = function() { if(typeof(_ezaq) != 'undefined'){if(typeof window.ezogtk !== "undefined" && window.ezogtk !== "") {__ez.bit.AddAndFire(_ezaq.page_view_id,[new __ezDotData("ext_user_hash",window.ezogtk)]);}}};document.addEventListener("DOMContentLoaded", __ez.queue.addFunc("__ez_tkn_evnt", "__ez_tkn_evnt", event, false, ['/detroitchicago/minneapolis.js','/detroitchicago/memphis.js'], true, true, false, true));</script>
+<script async data-ezscrex="false">__ez_fad_load(0,0);__ez_fad_doc_ht=__ez_fad_docht();__ez_fad_vp_ht=__ez_fad_vpht();function __ez_fad_scroll(){return window.pageYOffset||(document.documentElement||document.body.parentNode||document.body).scrollTop}
+var __ez_fad_scrollint=setInterval(function(){var sy=__ez_fad_scroll();var isShortPage=__ez_fad_doc_ht<=(__ez_fad_vh+100);var bot=(__ez_fad_vp_ht+sy);var botThresh=bot+__ez_fad_vp_ht;for(var divid in __ez_fad_divpos){if(__ez_fad_fastdiv.indexOf(divid)!=-1){continue;}
+var divPos=__ez_fad_divpos[divid];if(divPos>0&&divPos>sy&&divPos<(sy+200)){if(typeof __ez_fad_instaslots[divid]=='function'){__ez_fad_instaslots[divid]();}}else if(divPos>0&&divPos>sy&&divPos<(sy+600)){if(typeof __ez_fad_instaslots[divid]=='function'){__ez_fad_viewslots[divid]();}}}
+__ez_fad_chkpos();if(ezslit_run[0]!==true){__ez_fad_load(0,0);}
+if((sy>0||isShortPage)&&ezslit_run[1]!=true){__ez_fad_load(1,null);__ez_fad_load(5,null);}
+if((sy>100||isShortPage)&&ezslit_run[2]!=true){__ez_fad_load(2,null);}
+if(sy>(__ez_fad_vp_ht*.75)&&ezslit_run[3]!=true){__ez_fad_load(3,null);}
+if(document.readyState==="complete"&&!__ez_fad_floatshowd&&typeof __ez_fad_floating!=='undefined'&&__ez_fad_floating.length>0&&__ez_fad_count===0){setTimeout(googletag.cmd.push(function(){__ez_fad_floatshow()}),500);}
+if(ezslit_run[1]==true&&ezslit_run[2]==true&&ezslit_run[3]==true){clearInterval(__ez_fad_scrollint);}},500);function __ez_fad_chkpos(){if(typeof __ez_fad_divs[4]!='undefined'){for(var i=0;i<__ez_fad_divs[4].length;i++){var id=__ez_fad_divs[4][i];__ez_fad_divs[4][i]=null;__ez_fad_position([id]);}}}</script>
+<script type="text/javascript">(function(f,a){function g(b,a,c){b.addEventListener?b.addEventListener(a,c):b.attachEvent("on"+a,function(){c.call(b)})}function k(b){b&&("string"==typeof b["class"]&&b["class"]&&a.getElementById("uglipop_popbox").setAttribute("class",b["class"]),b.keepLayout&&!b["class"]&&a.getElementById("uglipop_popbox").setAttribute("style","position:relative;height:300px;width:300px;background-color:white;opacity:1;"),"string"==typeof b.content&&b.content&&"html"==b.source&&(a.getElementById("uglipop_popbox").innerHTML=b.content),"string"==typeof b.content&&b.content&&"div"==b.source&&(a.getElementById("uglipop_popbox").innerHTML=a.getElementById(b.content).innerHTML));a.getElementById("uglipop_overlay_wrapper").style.display="";a.getElementById("uglipop_overlay").style.display="";a.getElementById("uglipop_content_fixed").style.display=""}function h(){a.getElementById("uglipop_overlay_wrapper").style.display="none";a.getElementById("uglipop_overlay").style.display="none";a.getElementById("uglipop_content_fixed").style.display="none"}g(a,"DOMContentLoaded",function(){var b=a.createElement("div"),e=a.createElement("div"),c=a.createElement("div"),d=a.createElement("div");e.id="uglipop_content_fixed";e.setAttribute("style","position:fixed;top: 50%;left: 50%;transform: translate(-50%, -50%);-webkit-transform: translate(-50%, -50%);-ms-transform: translate(-50%, -50%);opacity:1;z-index:10000000;");c.id="uglipop_popbox";d.id="uglipop_overlay_wrapper";d.setAttribute("style","position:absolute;top:0;bottom:0;left:0;right:0;display:none");b.id="uglipop_overlay";b.setAttribute("style","position:fixed;top:0;bottom:0;left:0;right:0;opacity:0.3;width:100%;height:100%;background-color:black;");d.appendChild(b);e.appendChild(c);a.body.appendChild(d);a.body.appendChild(e);a.getElementById("uglipop_overlay_wrapper").style.display="none";a.getElementById("uglipop_overlay").style.display="none";a.getElementById("uglipop_content_fixed").style.display="none";d.addEventListener("click",h);g(f,"keydown",function(a){27==a.keyCode&&h()});f.uglipop=k})})(window,document);var ezRBA=(function(){function init(){var reportAdsBtns=document.querySelectorAll('.ez-report-ad-button');for(var i=0;i<reportAdsBtns.length;i++){reportAdsBtns[i].addEventListener('click',function(e){var url='<iframe src="https://svc.ezoic.com/pub/reportads/reportads.html'+e.target.getAttribute('name')+'" width="400" height="500" style="border-radius: 10px; box-shadow: 2px 2px 30px 6px rgba(0,0,0,0.75); border: 1px solid black;"></iframe>'
+uglipop({class:'none',source:'html',content:url,});});}
+function bindEvent(element,eventName,eventHandler){if(element.addEventListener){element.addEventListener(eventName,eventHandler,false);}else if(element.attachEvent){element.attachEvent('on'+eventName,eventHandler);}}
+bindEvent(window,'message',function(e){if(e.data==='close-report-ad-modal'){document.getElementById('uglipop_overlay_wrapper').style.display='none';document.getElementById('uglipop_overlay').style.display='none';document.getElementById('uglipop_content_fixed').style.display='none';}})}
+return{init:init};})();ezRBA.init();</script>
+<script type="text/javascript" data-cfasync="false"></script>
+<script type="text/javascript" style='display:none;'>var __ez_dims = (function() {
+		var setCookie = function( name, content, expiry ) {
+			return document.cookie = name+'='+content+((expiry)?';expires='+(new Date(Math.floor(new Date().getTime()+expiry*1000)).toUTCString()):'')+';path=/';
+		};
+		var ffid = 1;
+		var oh = window.screen.height;
+		var ow = window.screen.width;
+		var h = ffid === 1 ? oh : (oh > ow) ? oh : ow;
+		var w = ffid === 1 ? ow : (oh > ow) ? ow : oh;
+		var uh = window.innerHeight || document.documentElement.clientHeight || document.getElementsByTagName('body')[0].clientHeight;
+		var uw = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth;
+		setCookie('ezds', encodeURIComponent('ffid='+ffid+',w='+w+',h='+h), (31536e3*7));
+		setCookie('ezohw', encodeURIComponent('w='+uw+',h='+uh), (31536e3*7));
+	})();</script><script type='text/javascript' style='display:none;' async>
+</script>
+</body></html>

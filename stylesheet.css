@@ -1,12 +1,44 @@
-.body{
-    margin: 0;
-}
-.topnav {
-  background-color: #333;
+.header{
+  background-color: #2E4C6D;
   overflow: hidden;
 }
-
-
+.header h1{
+  margin: 5px 5px 5px 10px;
+  float: left;
+  color: #FFE300;
+  font-size: xx-large;
+  text-align: center;
+  font-family: cursive, monospace;  
+}
+.header h4{
+  margin-left: 10px;
+  float: left;
+  color: #FFE300;
+  text-align: center;
+  font-family: cursive, monospace;
+}
+.body hr{
+  margin: 0;
+}
+.body{
+  margin: 0;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.footer{
+  margin-top: auto;
+}
+.footer h4{
+  margin: 4px;
+  font-family: cursive, monospace; 
+  text-align: center;
+}
+.topnav {
+  background-color: #2E4C6D;
+  overflow: hidden;
+}
 .topnav a {
   float: left;
   color: #f2f2f2;
@@ -14,16 +46,74 @@
   padding: 14px 16px;
   text-decoration: none;
   font-size: 20px;
+  font-family: cursive, monospace;    
 }
-
-
 .topnav a:hover {
-  background-color: #ddd;
-  color: black;
-}
-
-
-.topnav a.active {
-  background-color: #04AA6D;
+  background-color: #396EB0;
   color: white;
+}
+.topnav a.active {
+  background-color: #396EB0;
+  color: white;
+}
+.top-image{
+  width: 75vw;
+  height: 40vh;
+  align-self: center;
+  background-color: blue;
+}
+.item-list{
+  margin-top: 50px;
+  overflow: hidden;
+  width: 75vw;
+  align-self: center;
+    text-align: justify;
+  -ms-text-justify: distribute-all-lines;
+  text-justify: distribute-all-lines;
+}
+.item{
+background-color: blue;
+display: inline-block;
+*display: inline;
+width: 300px;
+height: 300px;
+}
+.item-content{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.stretch {
+  width: 100%;
+  display: inline-block;
+  font-size: 0;
+  line-height: 0
+}
+.item-name{
+  margin-top: auto;
+  text-align: center;
+  color: white;
+  font-size: large;
+  font-family: cursive, monospace;
+}
+.discount-text{
+  font-family: cursive, monospace;
+  font-size: 20px;
+  text-align: center;
+  background-color: #F90716;
+  color: white;
+  margin-top: 0;
+}
+.aboutus{
+  width: 50vw;
+  align-self: center;
+}
+.aboutus-heading{
+  margin-top: 100px;
+ font-family: cursive, monospace; 
+}
+.aboutus p{
+ font-family: cursive, monospace; 
+ font-size: 18px;
 }
